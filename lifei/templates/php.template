@@ -1,0 +1,954 @@
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$      Include Files        $
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+|includefile| = php.auto.template
+|includefile| = php.comment.template
+|includefile| = php.joomla.template
+|includefile| = joomla.template
+|includefile| = php.xwork.template
+|includefile| = php.yii.template
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+== php.Test.Test ==
+$$ 这是一个测试 $$
+
+sdfasdfasdf
+sdf
+sdf
+sdf
+asf
+
+== php.MySQL.Link ==
+    $hostname = `<"localhost">`;
+    $username = `<"root">`;
+    $password = `<"">`;
+    $database = `<TODO:Database Name here!>`;
+    $connection = mysql_connect($hostname,
+                                $username,
+                                $password)
+        or die('No MySQL connected!');
+    mysql_select_db($database, $connection) 
+        or die('No Database selected!');
+    mysql_unbuffered_query("SET NAMES '`<utf8>`'");
+== php.MySQL.FetchResult ==
+    $query = mysql_query(<CURSOR>, $connection);
+    $row_count = mysql_num_rows($query);
+    while( ($row = mysql_fetch_row($query)) )
+    {
+        `<Do something with $row[0]>`
+    }
+== php.Cookie.用户验证 ==
+//本类使用了加密解密函数，请参照<php.加密解密.自定义加密解密函数>
+ $Dsn = 'sqlite:data.s3db';
+ $DB = new PDO($Dsn, '', '');
+
+ class CUser
+ {
+     var $User;
+     var $Password;
+     var $Name;
+     var $ErrorMsg;
+     var $ErrorString = Array(
+         '-1' => '操作数据库错误！',
+         '-2' => '无法得到有效的用户信息！',
+         '-3' => '操作超时！',
+         '-4' => '用户名或密码错误！',
+         '-5' => '',
+         '-6' => '',
+         '-7' => '',
+         '1' => '操作成功！',
+     );
+
+     var $DB = null;
+
+     function CUser($DB)
+     {
+         $this->DB = $DB;
+     }
+
+     function SetCookieInfo()
+     {
+         $LoginInfo  = 'user:'     . $this->User     . ';';
+         $LoginInfo .= 'password:' . $this->Password . ';';
+         $LoginInfo .= 'time:'     . time()           . ';';
+         $LoginInfo .= 'name:'     . $this->Name     . ';';
+         $LoginInfo = encrypt($LoginInfo, $key);
+         $LoginInfo = base64_encode($LoginInfo);
+         setcookie('LoginInfo', $LoginInfo);
+     }
+
+     function UserFromCookie()
+     {
+         $LoginInfo = $_COOKIE['LoginInfo'];
+         $LoginInfo = base64_decode($LoginInfo);
+         $LoginInfo = decrypt($LoginInfo, $key);
+         if(preg_match("/^user:([^;]+);password:([^;]+);time:([^;]+);name:([^;]+);/", $LoginInfo,
+             $Match))
+         {
+             $this->User     = $Match[1];
+             $this->Password = $Match[2];
+             $OldTime         = $Match[3];
+             $this->Name     = $Match[4];
+             $Time = time();
+             $Delay = ($Time - $OldTime);
+             if($Delay > 600)
+                 //超过10分中没有响应
+                 return -3;
+             else
+             {
+                 $this->SetCookieInfo();
+                 return 1;
+             }
+
+         }
+         // 格式错误！
+         return -2; 
+     }
+
+
+     function UserFromPost()
+     {
+         if( array_key_exists('user',     $_POST) && 
+             array_key_exists('password', $_POST) )
+         {
+             $this->User     = $_POST['user'    ];
+             $this->Password = $_POST['password'];
+             return $this->VerifyUser();
+
+         }
+         else
+             //格式错误
+             return -2;
+
+     }
+
+
+     function VerifyUser()
+     {
+         try
+         {
+             $SQL  = "SELECT NAME FROM USERINFO WHERE USER='" . $this->User;
+             $SQL .= "' AND PASSWORD='" . $this->Password . "';";
+             $Sth  = $this->DB->prepare($SQL);
+             $Sth->execute();
+             $Result = $Sth->fetchAll();
+         }
+         catch (PDOException $e)
+         {
+             $this->$ErrorMsg = $e->getMessage();
+             return -1;
+         }
+         $this->Name = $Result[0][0];
+         if($this->Name == null)
+             //用户名或密码错误
+             return -4;
+
+         return 1;
+
+     }
+
+     function GetNameByUser($User)
+     {
+         $SQL = "SELECT NAME FROM USERINFO WHERE USER='$User';";
+         $Sth = $this->DB->prepare($SQL);
+         $Sth->execute();
+         $Result = $Sth->fetch();
+         return $Result[0];
+     }
+
+
+ }
+== php.数组.Foreach处理 ==
+foreach(`<$result>` as &`<$value>`)
+{
+    `<$value[0] = utf8_substr($value[7],0, 300);>`
+}
+== php.Smarty.初始化 ==
+<?PHP
+    $smartypath = "`<smarty的安装目录（末尾请包含\\）>`";
+    $webpath = "`<网页的根目录（末尾请包含\\）>`";
+    include($smartypath . "Smarty.class.php");
+    global $smarty;
+    $smarty = new Smarty;
+    $smarty->template_dir = $webpath . 'templates/';
+    $smarty->compile_dir =  $webpath . 'templates_c/';
+    $smarty->config_dir =   $webpath . 'configs/';
+    $smarty->cache_dir =    $webpath . 'cache/';
+
+?>
+== php.Smarty.向模板里赋值 ==
+ $smarty->assign('`<键>`', '`<值>`');
+== php.Smarty.显示模板 ==
+ $smarty->display('`<模板名字>`');
+== php.HTML.跳转到某个页面 ==
+ echo('<Script Language="javascript">window.location="`<要跳转到的网址>`";</Script>');
+== php.登录验证.从Cookie里取回用户名密码和登录时间 ==
+ $logininfo = $_COOKIE['|?Cookie的键值:logininfo|'];
+ $logininfo = base64_decode($logininfo);
+ $string = decrypt($logininfo, $key);
+ if(preg_match("/^user:([^;]+);password:([^;]+);time:([^;]+);/", $string,
+     $match))
+ {
+     $user = $match[1];
+     $password = $match[2];
+     $oldtime = $match[3];
+     $time = time();
+     $delay = ($time - $oldtime);
+     if($delay > 24 * 3600)
+         `<添加处理：超过了一天>`
+     else
+     {
+         $string = "user:$user;password:$password;time:$oldtime;";
+         $dec_string = encrypt($string, $key);
+         $dec_string = base64_encode($dec_string);
+         setcookie('|Cookie的键值|', $dec_string);
+     }
+
+ }
+ else
+ {
+      `<不正确的Cookie信息>`
+ }
+== php.登录.从POST里取回用户名和密码 ==
+if(array_key_exists('user', $_POST) && 
+    array_key_exists('password', $_POST) )
+{
+    $user = $_POST['user'];
+    $password = $_POST['password'];
+}
+else
+{
+    `<TODO:做一些出错的处理>`
+}
+== php.登录.向Cookie里面添加登录信息 ==
+ $time = time();
+ $string = "user:$user;password:$password;$time:$time;";
+ $dec_string = encrypt($string, $key);
+ $dec_string = base64_encode($dec_string);
+ setcookie('`<Cookie的键值>`', $dec_string);
+== php.加密解密.自定义加密解密函数 ==
+<?PHP
+ function keyED($txt,$encrypt_key)
+ {
+     $encrypt_key = md5($encrypt_key);
+     $ctr=0;
+     $tmp = "";
+     for ($i=0;$i<strlen($txt);$i++) 
+     { 
+         if ($ctr==strlen($encrypt_key)) $ctr=0;
+         $tmp.= substr($txt,$i,1) ^ substr($encrypt_key,$ctr,1);
+         $ctr++;
+     } 
+     return $tmp;
+ } 
+  
+ function encrypt($txt,$key)
+ {
+     srand((double)microtime()*1000000);
+     $encrypt_key = md5(rand(0,32000));
+     $ctr=0;
+     $tmp = "";
+     for ($i=0;$i<strlen($txt);$i++) 
+     { 
+         if ($ctr==strlen($encrypt_key)) $ctr=0;
+         $tmp.= substr($encrypt_key,$ctr,1) .
+         (substr($txt,$i,1) ^ substr($encrypt_key,$ctr,1));
+         $ctr++;
+     } 
+     return keyED($tmp,$key);
+ } 
+  
+ function decrypt($txt,$key)
+ {
+     $txt = keyED($txt,$key);
+     $tmp = "";
+     for ($i=0;$i<strlen($txt);$i++)
+     { 
+         $md5 = substr($txt,$i,1);
+         $i++;
+         $tmp.= (substr($txt,$i,1) ^ $md5);
+     } 
+     return $tmp;
+ } 
+ 
+ /* 使用示例
+ $key = "i love my wife";
+ $string = "encrypt, and store it in ";
+ // encrypt $string, and store it in $enc_text
+ $enc_text = encrypt($string,$key);
+ 
+ $aa = base64_encode($enc_text);
+ $enc_text = base64_decode($aa);
+ // decrypt the encrypted text $enc_text, and store it in $dec_text
+ $dec_text = decrypt($enc_text,$key);
+ 
+ print "Original text : $string <Br>\n";
+ print "Encrypted text : $enc_text <Br>\n";
+ print "Decrypted text : $dec_text <Br>\n";
+ print "Decrypted text : $aa <Br>\n";
+ */
+== php.翻页.取页码（包括前一页页码和后一页页码） ==
+ function getpagecount(&$page, $count, $itemcount, &$page1, &$page2)
+ {
+     $total = intval($count / $itemcount);
+     if($total == 0)
+     {
+         $page  = 0;
+         $page1 = 0;
+         $page2 = 0;
+     }
+     if($page * $itemcount > $count)
+         $page = $total - 1;
+     if($page == null)
+         $page = 0;
+     $page1 = $page - 1;
+     if($page == 0)
+         $page1 = 0;
+     else
+         $page1 = $page - 1;
+     if($page == $total - 1 )
+         $page2 = $page;
+     else
+         $page2 = $page + 1;
+ }
+== php.字符串.UTF-8编码下取字符串前几位 ==
+ function utf8_substr($string, $start, $length, $append = '...')
+ {
+     preg_match_all ('/[\x00-\x7F]|[\xC2-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF][\x80-\xBF]|[\xF0-\xF4][\x80-\xBF][\x80-\xBF][\x80-\xBF]/', $string, $rs);
+     $out = '';
+     $size = count ($rs[0]);
+     $end = $start + $length;
+     if ($end > $size )
+     {
+         $end = $size;
+         $append = '';
+     }
+     for ($i = $start; $i < $end; $i++) 
+     {
+         $out .= $rs[0][$i];
+     }
+     return $out.$append;
+ }
+== php.数据库.SQLite3取分页部分 ==
+ $dsn = 'sqlite:`<数据库的路径>`';
+ try {
+    $dbh = new PDO($dsn, $user, $password);
+    $dbh->beginTransaction();
+    $sth = $dbh->prepare("SELECT count(*) FROM |?表名及查询条件|");
+    $sth->execute();
+    $result = $sth->fetch();
+
+    /** 得到总数 */
+    $count = $result[0];
+
+
+    /** 此函数为分页函数，请参考php.翻页.取页码 */
+    getpagecount($page, $count, |?每页的条目数|, `<首页序号>`, `<末页序号>`);
+    $total = $page * |每页的条目数|;
+    $sth = $dbh->prepare("SELECT * FROM |表名及查询条件| limit $total, |每页的条目数|");
+    $sth->execute();
+    $result = $sth->fetchAll();
+    $dsn=null;
+} catch (PDOException $e) {
+    echo 'Connection failed: ' . $e->getMessage();
+    $dsn=null;
+}
+== php.数据库.SQLite3 ==
+ $dsn = 'sqlite:`<数据库的路径>`';
+ try {
+     $dbh = new PDO($dsn, $user, $password);
+     $dbh->beginTransaction();
+     $sth = $dbh->prepare("`<Your SQL>`");
+     $sth->execute();
+     $result = $sth->fetchAll();
+     $dsn=null;
+ } catch (PDOException $e) {
+     echo 'Connection failed: ' . $e->getMessage();
+     $dsn=null;
+ }
+$------------------------------------------------
+$        算法部分
+$------------------------------------------------
+== php.algorithms.array.intersection ==
+<?php
+	$array1 = array ('a' => 'green', 'b' => 'brown', 'c' => 'blue', 'red');
+	$array2 = array ('a' => 'green', 'yellow', 'red');
+	$result_array = array_intersect_assoc ($array1, $array2);
+?>
+== php.algorithms.binary2text ==
+function bin2text($bin_str)
+{
+	$text_str = '';
+	$chars = explode("\n", chunk_split(str_replace("\n", '', $bin_str), 8));
+	$_I = count($chars);
+	for ( $i = 0; $i < $_I; $text_str .= chr(bindec($chars[$i])), $i++  );
+	return $text_str;
+}
+
+function text2bin($txt_str)
+{
+	$len = strlen($txt_str);
+	$bin = '';
+	for ( $i = 0; $i < $len; $i++ ) {
+		$bin .= strlen(decbin(ord($txt_str[$i]))) < 8 ? str_pad(decbin(ord($txt_str[$i])), 8, 0, STR_PAD_LEFT) : decbin(ord($txt_str[$i]));
+	}
+	return $bin; 
+} 
+print text2bin('How are you gentlements?'); 
+== php.algorithms.boolean_keywords ==
+/*
+   BEGIN FUNCTION DEFINITIONS
+ */
+
+/*
+   This function takes in an array and flushes all null values from the array.
+   It returns the array - all null values.
+ */
+function flush_alt($alts) {
+    for($idx=0,$max=count($alts); $idx<$max; $idx++  ) {
+        if ($alts[$idx]!='') {
+            $alts2[]=$alts[$idx];
+        }
+    }
+    return($alts2);
+}
+/*
+   This takes in an array and eliminates all duplicate values within the array.
+ */
+function flush_dupes($package) {
+    for ( $count=0,$top=count($package); $count<$top; $count++ ) {
+        if ($package[$count]!='' && ( $package[$count] != $package[$count+1] ) ) {
+            $pack2[] = $package[$count];
+        }
+    }
+    return($pack2);
+}
+/*
+   This function takes in two arrays.
+   It eliminates all the values in the first array from the second array.
+   It then returns the corrected second array.
+ */
+function rank_arrays ( $array1, $array2 ) {
+    /* Takes all of the values in $array1 out of $array2. */
+    for ( $j=0,$max1=count($array1); $j<$max1; $j   ) { 
+        for ( $h=0,$max2=count($array2); $h<$max2; $h  ) {
+            if ( ( $array2[$h] == $array1[$j] ) && ( $array1[$j] != '' ) ) {
+                $array2[$h] = '';
+            }
+        }
+    }
+    $array2 = flush_alt($array2);
+    return($array2);
+}
+
+/*
+   END FUNCTION DEFINITIONS
+ */
+if ( !$keywords ) {
+    $temp=array();
+    $tpl ='final_search_table';
+    $temp['session_id'] = 'session_id';
+    $temp['uid']        = 'userid';
+    $temp['error']      = 'error';
+    include 'includes/function_PrintPage.php';
+    PrintPage( $tpl, $temp);
+    exit;
+}
+else {
+    $starttime = microtime();
+    print "keywords = $keywords<br><br>\n";
+    // Break up $keywords on whitespace.
+    $pieces = split ( '[[:space:]] ', $keywords );
+    /* Intialize three arrays */
+    /* $haves has all of the values that must be present */
+    $haves    = array();
+    /* $havenots has all of the values that must not be present */
+    $havenots = array();
+    /* $alternates has all of the values that can be present */
+    $alternates = array();
+    /* $entities has all of the individual pieces of the keyword string.
+       This includes both individual words and strings. */
+    $objects = array();
+    /* Initialize the $tmpstring. */
+    $tmpstring='';
+    /* Initialize the $flag. */
+    $flag = '';
+    /* #################################################
+       This code takes the keyword string passed in
+       and breaks it into objects.  It breaks
+       everything into either individual words or 
+       strings, if a block of text is quoted within
+       the keyword string.
+    ################################################# */
+    for ( $k=0; $k<count($pieces); $k++   ) {
+        /* Check individual words. */
+        if ( ( substr($pieces[$k], -1) != '""' ) && ( substr($pieces[$k], 0, 1) != '""' ) ) {
+            $objects[] = trim($pieces[$k]); 
+        }
+        else {
+            /* This means that the $piece is either the beginning or the end of a string.
+               So, we'll slurp up the $pieces and stick them together until we get to the
+               end of the string or run out of pieces. */
+            /* Make sure the $tmpstring is empty. */
+            $tmpstring = '';
+            /* Add this word to the $tmpstring, starting the $tmpstring. */
+            $tmpstring .= trim ( ereg_replace( '""', ' ', $pieces[$k] ) );
+            /* Check for one possible exception to the rule. That there is a single quoted word. */
+            if ( substr(trim($pieces[$k]), -1 ) == '""' ) {
+                /* Turn the flag off for future iterations. */
+                $flag = 'off';
+                /* Push the $tmpstring onto the $haves array. */
+                $objects[] = trim($tmpstring);
+                /* Free the $tmpstring. */
+                unset ( $tmpstring );
+                /* Stop looking for the end of the string and move onto the next word. */
+                continue;
+            }
+            /* Otherwise, turn on the flag to indicate no quotes have been found attached to
+               this word in the string. */
+            $flag = 'on';
+            //print '<br>'.$pieces[$k]." turned the flag $flag.<br>\n";
+            /* Move on to the next word. */
+            $k  ;
+            /* Keep reading until the end of the string as long as the $flag is on. */
+            while ( $flag == 'on' && ( $k < count( $pieces ) ) ) {
+                /* If the word doesn't end in double quotes, append it to the $tmpstring. */
+                if ( substr(trim($pieces[$k]), -1) != '""' ) { 
+                    /* Tack this word onto the current string entity. */
+                    $tmpstring .= "" $pieces[$k]"";
+                    /* Move on to the next word. */
+                    $k  ;
+                    continue;
+                }
+                /* If the $piece ends in double quotes, strip the double quotes, tack the
+                   $piece onto the tail of the string, push the $tmpstring onto the $haves,
+                   kill the $tmpstring, turn the $flag 'off', and return. */
+                else {
+                    $tmpstring .= ' '.trim ( ereg_replace( '""', ' ', $pieces[$k] ) );
+                    /* Push the $tmpstring onto the array of stuff to search for. */
+                    $objects[] = trim($tmpstring); 
+                    /* Kill the $tmpstring. */
+                    unset ( $tmpstring );
+                    /* Turn off the flag to exit the loop. */
+                    $flag = 'off';
+                    //print "<br>$pieces[$k] turned the flag $flag.<br>\n";
+                }
+            }
+        }
+    }
+    /* #################################################
+       Objects are now defined.
+################################################# */
+    /* Now we've got our objects defined. We must now determine
+       the relationships among them. By running through them and
+       picking out key words or symbols. Relationships are
+       determined by the presence of the Boolean keywords 'AND',
+       'OR', and 'NOT', as well as the operators ' ' and '-'. */
+    for ( $j=0; $j<count($objects); $j++   ) {
+        /* BEGIN CHECKING THE CURRENT OBJECT */
+        /* If the object starts in ' ' it goes on the haves[]. */
+        if ( substr ( $objects[$j], 0, 1 ) == ' ' ) {
+            //echo "echoing $objects[$j]<br>\n";
+            $haves[] = trim(ereg_replace(""^\ "", ' ', $objects[$j]));
+        }
+        /* If the object starts in '-' it goes on the havenots[]. */
+        if ( substr ( $objects[$j], 0, 1 ) == '-' ) {
+            $havenots[] = trim(ereg_replace(""^-"", ' ', $objects[$j]));
+            //$j  ;
+        }
+        /* END CHECKING THE CURRENT OBJECT */
+        /* BEGIN CHECKING THE NEXT OBJECT */
+        if ( $objects[$j 1] == 'AND' ) {
+            /* Hop onto the 'AND'. */
+            $j  ;
+            if ( ! ereg(""^[\ -]"", $objects[$j-1]) ) {
+                $haves[] = $objects[$j-1];
+            }
+            else { /* Just hang tight. */ }
+            $haves[] = $objects[$j 1];
+            while ( $objects[$j 2] == 'OR' ) {
+                // Hop on top of the OR.
+                $j = $j 2;
+                $haves[] = $objects[$j 1];
+            }
+        }
+        elseif ( $objects[$j 1] == 'NOT') {
+            /* Hop on the NOT. */
+            $j ;
+            $alternates[] = $objects[$j-1];
+            $havenots[]   = $objects[$j 1];
+            while ( $objects[$j 2] == 'OR' ) {
+                // Hop on top of the OR.
+                $j = $j 2;
+                $havenots[] = $objects[$j 1];
+            }
+        }
+        elseif ( $objects[$j 1] == 'OR' ) {
+            /* Hop onto the OR. */
+            $j  ;
+            $alternates[] = $objects[$j-1];
+            $alternates[] = $objects[$j 1];
+        }
+        else {
+            /* It's just a regular word, throw it on the alternates. */
+            if ( ( substr($objects[$j], 0, 1) != ' ' ) && ( substr($objects[$j], 0, 1) != '-' ) && ( $objects[$j-1] != 'AND' ) && ( $objects[$j-1] != 'NOT' ) ) {
+                $alternates[] = $objects[$j];
+            }
+        }
+    }
+    /* END CHECKING THE NEXT OBJECT */
+    /******** BEGIN FILTER ********/
+    /* Sort the arrays. */
+    sort ( $haves );
+    sort ( $havenots );
+    sort ( $alternates );
+    /* End sorting. */
+    /* Remove duplicates within each array. */
+    $haves      = flush_dupes($haves);
+    $havenots   = flush_dupes($havenots);
+    $alternates = flush_dupes($alternates);
+    /* End removing duplicates within each array. */
+    /* Eliminate all of the duplicated values between the haves and alternates array. */
+    $alternates = rank_arrays ( $haves, $alternates );
+    $alternates = rank_arrays ( $havenots, $alternates );
+    $haves      = rank_arrays ( $havenots, $haves );
+    /* End eliminating duplicates between arrays. */
+    /******** END FILTER ********/
+    /* Display the results of the search. */
+    print "Search for:<p>\n";
+    print "<b>Objects:</b><ul>\n";
+    for($i=0; $i<count($objects); $i++  ) {
+        print "<li>..$objects[$i]..</li>\n";
+    }
+    print "</ul>\n\n";
+    print "<b>Records with:</b><ul>\n";
+    for($i=0; $i<count($haves); $i++  ) {
+        print "<li>$haves[$i]</li>\n";
+    }
+    print "</ul>\n\n";
+    print "<b>Records without:</b><ul>\n";
+    for($l=0; $l<count($havenots); $l++  ) {
+        print "<li>$havenots[$l]</li>\n";
+    }
+    print "</ul>\n\n";
+    print "<b>Records that have any of the following:</b>\n<ul>\n";
+    for($t=0; $t<count($alternates); $t++  ) {
+        print "<li>$alternates[$t]</li>\n";
+    }
+    print "</ul>\n\n";
+    exit;
+    /*** EOF ***/
+}
+// Example:
+// < form action='this script' method='post' >
+$------------------------------------------------
+$        数组部分
+$------------------------------------------------
+== php.apache.request_headers ==
+<?php
+	$headers = apache_request_headers();
+
+	foreach ($headers as $header => $value) {
+		echo "$header: $value <br />\n";
+	}
+?>
+== php.arrays.change_case ==
+<?php
+	$input_array = array("FirSt" => 1, "SecOnd" => 4);
+	print_r(array_change_key_case($input_array, CASE_UPPER));
+?>
+== php.arrays.count_array_values ==
+<?php
+	$array = array (1, "hello", 1, "world", "hello");
+	print_r(array_count_values ($array));
+?>
+== php.arrays.dump_highlighted ==
+<? 
+// An alternative to print_r, this function will print an array 
+// with HTML and Syntax highlighting. Could easily be extended to
+// support 3D arrays.
+// USAGE: echo f_arr($_SESSION);
+
+function f_arr($arr) {
+	$fr = "<font color=red size=1>";
+	$fg = "<font color=green size=1>";
+	$fb = "<font color=blue size=1>";
+	$fk = "<font color=black size=1>";
+	$fe = "</font>";
+	$l = "$fg [ $fe";
+	$r = "$fg ] $fe";
+	$a = "$fk => $fe";
+	$out = "";
+	foreach($arr as $k=>$v){
+		$out[] = $l.$fb.$k.$fe.$r.$a.$fr.$v.$fe;
+	}
+	if(is_array($out)) {
+		return implode("<br />", $out);
+	} else {
+		return false;
+	}
+}
+?>
+== php.array.Price_nice ==
+<?php
+// the simple function
+function print_rn($ar) {
+	echo "<pre>";
+		print_r($ar);
+	echo "</pre>";
+}
+
+// array example
+$ar = array("p0144",
+			"p0145",
+			"p0146",
+			"p0159",
+			"p0166",
+			"p0167",
+			"p0171",
+			"p0172",
+			"p0173",
+			"p0174",
+			"p0176",
+			"p0191",
+			"p0194",
+			"p0197",
+			"p0198");
+
+// pass array to the fuction
+print_rn($ar);
+?>
+$------------------------------------------------
+$        Windows COM 部分
+$------------------------------------------------
+== php.COM_For Windows.ADODB_connection ==
+<?php
+	$conn = new COM("ADODB.Connection") or die("Cannot start ADO");
+	$conn->Open("Provider=SQLOLEDB; Data Source=localhost;
+Initial Catalog=database; User ID=user; Password=password");
+
+	$rs = $conn->Execute("SELECT * FROM sometable");	// Recordset
+
+	$num_columns = $rs->Fields->Count();
+	echo $num_columns . "\n";
+
+	for ($i=0; $i < $num_columns; $i++) {
+		$fld[$i] = $rs->Fields($i);
+	}
+
+	$rowcount = 0;
+	while (!$rs->EOF) {
+		for ($i=0; $i < $num_columns; $i++) {
+			echo $fld[$i]->value . "\t";
+		}
+		echo "\n";
+		$rowcount++;		// increments rowcount
+		$rs->MoveNext();
+	}
+
+	$rs->Close();
+	$conn->Close();
+
+	$rs->Release();
+	$conn->Release();
+
+	$rs = null;
+	$conn = null;
+?>
+== php.COM_For_Windows.Word_document ==
+<?php
+// starting word
+	$word = new COM("word.application") or die("Unable to instanciate Word");
+	print "Loaded Word, version {$word->Version}\n";
+
+//bring it to front
+	$word->Visible = 1;
+
+//open an empty document
+	$word->Documents->Add();
+
+//do some weird stuff
+	$word->Selection->TypeText("This is a test...");
+	$word->Documents[1]->SaveAs("Useless test.doc");
+
+//closing word
+	$word->Quit();
+
+//free the object
+//	$word->Release();
+	$word = null;
+?>
+== php.Image.Image_support ==
+<?php
+	if (function_exists("imagegif")) {
+		header ("Content-type: image/gif");
+		imagegif ($im);
+	}
+	elseif (function_exists("imagejpeg")) {
+		header ("Content-type: image/jpeg");
+		imagejpeg ($im, "", 0.5);
+	}
+	elseif (function_exists("imagepng")) {
+		header ("Content-type: image/png");
+		imagepng ($im);
+	}
+	elseif (function_exists("imagewbmp")) {
+		header ("Content-type: image/vnd.wap.wbmp");
+		imagewbmp ($im);
+	}
+	else
+		die("No image support in this PHP server");
+?>
+== php.Image.Load_image ==
+<?php
+/* Note: Gif only available with GD Lib ver < 1.6 */
+function LoadGif ($imgname) {
+	$im = @imagecreatefromgif ($imgname); /* Attempt to open */
+	if (!$im) { /* See if it failed */
+		$im = imagecreate (150, 30); /* Create a blank image */
+		$bgc = imagecolorallocate ($im, 255, 255, 255);
+		$tc = imagecolorallocate ($im, 0, 0, 0);
+		imagefilledrectangle ($im, 0, 0, 150, 30, $bgc);
+		/* Output an errmsg */
+		imagestring ($im, 1, 5, 5, "Error loading $imgname", $tc);
+	}
+	return $im;
+}
+
+function LoadJpeg ($imgname) {
+	$im = @imagecreatefromjpeg ($imgname); /* Attempt to open */
+	if (!$im) { /* See if it failed */
+		$im  = imagecreate (150, 30); /* Create a blank image */
+		$bgc = imagecolorallocate ($im, 255, 255, 255);
+		$tc  = imagecolorallocate ($im, 0, 0, 0);
+		imagefilledrectangle ($im, 0, 0, 150, 30, $bgc);
+		/* Output an errmsg */
+		imagestring ($im, 1, 5, 5, "Error loading $imgname", $tc);
+	}
+	return $im;
+}
+
+function LoadPNG ($imgname) {
+	$im = @imagecreatefrompng ($imgname); /* Attempt to open */
+	if (!$im) { /* See if it failed */
+		$im  = imagecreate (150, 30); /* Create a blank image */
+		$bgc = imagecolorallocate ($im, 255, 255, 255);
+		$tc  = imagecolorallocate ($im, 0, 0, 0);
+		imagefilledrectangle ($im, 0, 0, 150, 30, $bgc);
+		/* Output an errmsg */
+		imagestring ($im, 1, 5, 5, "Error loading $imgname", $tc);
+	}
+	return $im;
+}
+
+/* Note: Gif only available with GD Lib ver >= 1.8 */
+function LoadWBMP ($imgname) {
+	$im = @imagecreatefromwbmp ($imgname); /* Attempt to open */
+	if (!$im) { /* See if it failed */
+		$im  = imagecreate (20, 20); /* Create a blank image */
+		$bgc = imagecolorallocate ($im, 255, 255, 255);
+		$tc  = imagecolorallocate ($im, 0, 0, 0);
+		imagefilledrectangle ($im, 0, 0, 10, 10, $bgc);
+		/* Output an errmsg */
+		imagestring ($im, 1, 5, 5, "Error loading $imgname", $tc);
+	}
+	return $im;
+}
+?>
+== php.LDAP.Get_attributes ==
+<?php
+// $ds is the link identifier for the directory
+
+// $sr is a valid search result from a prior call to
+// one of the ldap directory search calls
+ 
+ $entry = ldap_first_entry($ds, $sr);
+ 
+ $attrs = ldap_get_attributes($ds, $entry);
+ 
+ echo $attrs['count'].' attributes held for this entry:<p>';
+ 
+ for ($i=0; $i<$attrs['count']; $i++)
+ 	echo $attrs[$i].'<br>';
+?>
+== php.LDAP.Get_values ==
+// List all values of the 'mail' attribute for a directory entry 
+<?php
+// $ds is a valid link identifier for a directory server
+
+// $sr is a valid search result from a prior call to
+//     one of the ldap directory search calls
+
+// $entry is a valid entry identifier from a prior call to
+//        one of the calls that returns a directory entry
+
+	$values = ldap_get_values($ds, $entry, 'mail');
+
+	echo $values['count'].' email addresses for this entry.<p>';
+
+	for ($i=0; $i < $values['count']; $i++)
+		echo $values[$i].'<br>';
+?>
+
+== php.LDAP.Search ==
+<?php
+// $ds is a valid link identifier for a directory server
+
+// $person is all or part of a person's name, eg "Jo"
+ 
+ $dn = 'o=My Company, c=US';
+ $filter="(|(sn=$person*)(givenname=$person*))";
+ $justthese = array( 'ou', 'sn', 'givenname', 'mail' );
+ 
+ $sr=ldap_search($ds, $dn, $filter, $justthese);
+ 
+ $info = ldap_get_entries($ds, $sr);
+ 
+ print $info['count'].' entries returned<p>';
+?>
+== php.AJAX.分页 ==
+// 请配合<smarty.AJAX.分页>使用
+// 本例程使用了CPage类，请引用<php.class.CPage>
+// 本例中$DB是PDB类的实例，请参考<php.数据库.SQLite3>
+// 本例使用了JavaScript的sendRequest函数，请参考<javascript.AJAX.提交某个表单到页面并返回结果>
+
+ /*
+    从REQUEST里读取，一个示例
+
+    $SQL      = "WHERE "; //condition
+    
+    $Name     = $_REQUEST['name'];
+    if($Name == null)
+        $SQL .= 'USER IN (SELECT USER FROM USERINFO)';
+    else
+        $SQL .= "USER IN (SELECT USER FROM USERINFO WHERE NAME='$Name')";
+    
+    $Type     = $_REQUEST['type'];
+    if($Type != null && $Type > 0)
+        $SQL .= " AND Type='$Type'";
+    $SQL     .= ' ORDER BY NO DESC';
+    
+    $Page = $_REQUEST['page'];
+    if($Page == null)
+        $Page = 0;
+     */
+
+ $PageCls = new CPage($DB, `<每页项目数>`, `<当前页数>`, `<表名>`, `<条件>`);
+ $PageCls->GetPageInfo();
+
+ $BeforeUrl = "javascript:sendRequest(`<表单ID>`," .
+     "'`<网页的URL>`.php?action=query&page=";
+ $AfterUrl  = "','post_result');";
+
+ $smarty->assign('BeforeUrl'         , $BeforeUrl            );
+ $smarty->assign('AfterUrl'          , $AfterUrl             );
+ $smarty->assign('CurrentPage'       , $PageCls->CurrentPage );
+ $smarty->assign('FirstPage'         , $PageCls->FirstPage   );
+ $smarty->assign('PrePage'           , $PageCls->PrePage     );
+ $smarty->assign('NextPage'          , $PageCls->NextPage    );
+ $smarty->assign('LastPage'          , $PageCls->LastPage    );
+ $smarty->assign('Result'            , $PageCls->Result      );
+ $smarty->display('testingdetail.tpl');
+
+        
+$-----------------------------------------

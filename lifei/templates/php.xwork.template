@@ -1,0 +1,57 @@
+== xwork.初始化.初始化代码 ==
+    ini_set("arg_seperator.output", "&amp;");
+    ini_set("magic_quotes_gpc", 0 );
+    ini_set("magic_quotes_sybase", 0 );
+    ini_set("magic_quotes_runtime", 0 );
+    ini_set('display_errors' , 1 );
+    ini_set("memory_limit","512M");
+    include_once(dirname(__FILE__)."/../../sys/PathDefine.php");
+    include_once(ROOT_TOP_PATH."/cron/Assembly.php");
+    mb_internal_encoding("UTF-8");
+
+    HuocheSystem::init();
+== xwork.数据库.直接执行Sql代码(一列) ==
+    $sql = "`<TODO:>`";
+    $<CURSOR> = BeanFinder::get("DbExecuter")->queryValues($sql);
+== xwork.数据库.得到一个实体 ==
+	<CURSOR> = Dao::getEntityByCond("`<TODO:实体类名>`","and id=$`<TODO:>` order by id limit 1");
+== php.AutoComplete.gete == insert ==
+<CURSOR> = Dao::getEntityByCond("`<TODO:实体类名>`","and id=$`<TODO:>` order by id limit 1");
+== xwork.数据库.得到实体列表 ==
+<CURSOR> = Dao::getEntityListByCond("`<TODO:实体类名>`","and id=$`<TODO:id的值>`");
+== php.AutoComplete.getel == insert ==
+<CURSOR> = Dao::getEntityListByCond("`<TODO:实体类名>`","and id=$`<TODO:id的值>`");
+== xwork.数据库.遍历数据库 ==
+<CURSOR> = Dao::getEntityListByCond("`<TODO:实体类名>`","and id=$`<TODO:id的值>`");
+$id = 0;
+while(true)
+{
+    $i++;
+    $<CURSOR> = Dao::getEntityByCond("`<TODO:实体类名>`","and id>$id order by id limit 1");
+
+    `<TODO:dosomething>` 
+}
+== php.AutoComplete.getall == insert ==
+<CURSOR> = Dao::getEntityListByCond("`<TODO:实体类名>`","and id=$`<TODO:id的值>`");
+$id = 0;
+while(true)
+{
+    $i++;
+    $<CURSOR> = Dao::getEntityByCond("`<TODO:实体类名>`","and id>$id order by id limit 1");
+
+    `<TODO:dosomething>` 
+}
+== xwork.数据库.工作单元 ==
+	$unitofwork = BeanFinder::get("UnitOfWork");
+    <CURSOR>;
+    $unitofwork->commitAndRelease();
+== php.AutoComplete.getbyid == insert ==
+|NULL|$|?实体类名| = |实体类名|::getById($id);
+== php.AutoComplete.getv == insert ==
+|NULL|$|?key| = XRequest::getValue('|key|');
+== php.AutoComplete.jump == insert == 
+XContext::setJumpPath('index.php?action=<CURSOR>&method=`<TODO:method>`'); 
+== php.AutoComplete.setv == insert == 
+XContext::setValue('<CURSOR>', `<TODO:>`); 
+== php.AutoComplete.getid == insert == 
+<CURSOR> = Dao::getEntityById('`<TODO:>`', `<$id>`);

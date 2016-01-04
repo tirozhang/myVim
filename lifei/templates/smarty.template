@@ -1,0 +1,95 @@
+== smarty.Foreach实例 ==
+{foreach name=outer item=iterator from=`<$result>`}
+    `<{$iterator}、{$iterator[0]}、{$iterator.id}或{$iterator->id}>`
+{/foreach}
+== smarty.不转义部分 ==
+{literal}
+    <CURSOR>
+{/literal}
+== smarty.AJAX.分页 ==
+{* 请配合《php.AJAX.分页》和《Javascript.AJAX.分页》使用 *}
+{* 请在正文里添加<div id="post_result"> 和 <form> *}
+{* 本例使用Form作为数据交换的标签，操作过程需要Form的数据不变动 *}
+{* 如果Form内数据变动，将导致翻页数据错误 *}
+
+{if $Action eq "Query"}
+{if count($Result) > 0}
+    <p> 
+        第{math equation="x+1" x=$CurrentPage}页，共{math equation="x+1" x=$LastPage}页，
+        <a href="{$BeforeUrl}{$FirstPage}{$AfterUrl}">第一页</a>&nbsp;
+        {if $PrePage <> $CurrentPage}
+            <a href="{$BeforeUrl}{$PrePage}{$AfterUrl}">上一页</a>
+        {else}
+            上一页
+        {/if}&nbsp;
+        {if $NextPage <> $CurrentPage}
+            <a href="{$BeforeUrl}{$NextPage}{$AfterUrl}">下一页</a>
+        {else}
+            下一页
+        {/if}&nbsp;
+        <a href="{$BeforeUrl}{$LastPage}{$AfterUrl}">末页</a>
+    </p>
+    <table class="list" cellpadding="0" cellspacing="0" align="center">
+    <tr>
+        <td>
+            姓名 
+        </td>
+        <td>
+            提交时间 
+        </td>
+        <td>
+            测试类型 
+        </td>
+        <td>
+            测试数量 
+        </td>
+        <td>
+            操作 
+        </td>
+    </tr>
+    {foreach name=outer item=contact from=$Result}
+    <tr>
+        <td>
+            {$contact[5]} 
+        </td>
+        <td>
+            {$contact[2]} 
+        </td>
+        <td>
+            {$contact[3]}
+        </td>
+        <td>
+            {$contact[4]}
+        </td>
+        <td>
+            {if $contact[1] eq $User}
+                `<<a
+                href="javascript:doAndGetData('xxx.php?action=del&no={$contact[0]}',
+                'xxx.php?action=query&page={$CurrentPage}', 'post_result');">删除</a>>`
+            {else}
+                &nbsp;
+            {/if}
+        </td>
+    </tr>
+    {/foreach}
+    </table>
+    <p> 
+        第{math equation="x+1" x=$CurrentPage}页，共{math equation="x+1" x=$LastPage}页，
+        <a href="{$BeforeUrl}{$FirstPage}{$AfterUrl}">第一页</a>&nbsp;
+        {if $PrePage <> $CurrentPage}
+            <a href="{$BeforeUrl}{$PrePage}{$AfterUrl}">上一页</a>
+        {else}
+            上一页
+        {/if}&nbsp;
+        {if $NextPage <> $CurrentPage}
+            <a href="{$BeforeUrl}{$NextPage}{$AfterUrl}">下一页</a>
+        {else}
+            下一页
+        {/if}&nbsp;
+        <a href="{$BeforeUrl}{$LastPage}{$AfterUrl}">末页</a>
+    </p>
+{else}
+    没有找到数据！
+{/if}
+$###################################################
+

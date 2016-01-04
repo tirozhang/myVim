@@ -1,0 +1,132 @@
+$ mysql <<<
+== java.MySQL.定义一个Connection ==
+/** Define the Connection */
+// should be a private attribution of a class
+private java.sql.Connection connection = null; 
+== java.MySQL.链接数据库 ==
+String link = `<"jdbc:mysql://localhost:3306/web?useUnicode=true&characterEncoding=gb2312">`;
+String username = `<"root">`;
+String password = `<密码>`;
+// Load Driver
+try {
+    Class.forName( "org.gjt.mm.mysql.Driver" );
+    connection = java.sql.DriverManager.getConnection(
+            link, username, password );
+}
+// Catch Driver Loading Exception
+catch ( ClassNotFoundException cnfex ) {
+    System.err.println(
+            "Load JDBC/ODBC Driver Failed." );
+    cnfex.printStackTrace();
+    System.exit( 1 ); // terminate program
+}
+// Connection Exception
+catch ( java.sql.SQLException sqlex ) {
+    System.err.println( "Unable to connect the server" );
+    sqlex.printStackTrace();
+    System.exit( 1 ); // terminate program
+} 
+== java.MySQL.仅执行SQL语句 ==
+java.sql.Statement statement = null;
+try 
+{
+    statement = connection.createStatement();
+    statement.executeUpdate(<CURSOR>);
+}
+catch ( java.sql.SQLException sqlex )
+{
+    sqlex.printStackTrace();
+} 
+finally
+{
+    if(statement != null)
+    {
+        try
+        {
+            statement.close();
+        }
+        catch(java.sql.SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+}
+== java.MySQL.执行SQL语句并处理结果 ==
+java.sql.Statement statement = null;
+java.sql.ResultSet resultSet = null;
+
+try 
+{
+    statement = connection.createStatement();
+    resultSet = statement.executeQuery(<CURSOR>);
+
+    if( !resultSet.next() )
+    {
+        // No result
+        `<return false;>`
+    }
+
+    ResultSetMetaData meta = resultSet.getMetaData();
+    int columnCount = meta.getColumnCount();
+    /*
+    // got column name
+    for ( int i = 1; i <= rsmd.getColumnCount(); ++i )
+    {
+    rsmd.getColumnName( i ) 
+    }
+    // */
+
+    do
+    {
+        for(int i = 1; i <= columnCount; ++i)
+        {
+            // `<
+            // fetch data:  resultSet.getString(i);
+            // update date: 
+            //    resultSet.updateInt(1, newInt);
+            //    resultSet.updateRow();
+            // insert data:
+            //    resultSet.insertRow();
+            // >`
+            `<Your Code>`
+        }
+
+    }
+    while ( resultSet.next() );
+
+    // `<
+    // ResultSet Move: first(), last(), next(),  previous() , isFisrt(),
+    // isLast(), isAfterLast() , isBeforeFirst() , moveToInsertRow() 
+    // >`
+}
+catch ( java.sql.SQLException sqlex )
+{
+    sqlex.printStackTrace();
+} 
+finally
+{
+    try
+    {
+        resultSet.close();
+        statement.close();
+    }
+    catch(Exception ex)
+    {
+        ex.printStackTrace();
+    }
+}
+== java.MySQL.关闭链接 ==
+if(connection != null)
+{
+    try
+    {
+        connection.close();
+    }
+    catch(java.sql.SQLException e)
+    {
+        e.printStackTrace();
+    }
+}
+$ >>>
+$ vim600: ts=4 st=4 foldmethod=marker foldmarker=<<<,>>> syn=java
+$ vim600: encoding=utf-8 commentstring=$\ %s

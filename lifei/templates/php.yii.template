@@ -1,0 +1,40 @@
+== php.AutoComplete.createurl == insert ==
+$this->createUrl(<CURSOR>);
+== php.AutoComplete.ecreateurl == insert ==
+<?php echo $this->createUrl(<CURSOR>); ?>
+== php.AutoComplete.req == insert ==
+Yii::app()->request->
+== php.AutoComplete.lin == insert ==
+CHtml::link(<CURSOR>, `<TODO:链接>`)
+== php.AutoComplete.eli == insert ==
+<?php echo CHtml::link(<CURSOR>, `<TODO:链接>`);?>
+== php.AutoComplete.enc == insert ==
+CHtml::encode(<CURSOR>)
+== php.AutoComplete.een == insert ==
+<?php echo CHtml::encode(<CURSOR>);?>
+== php.AutoComplete.app == insert ==
+Yii::app()-><CURSOR>
+== php.AutoComplete.getv == insert ==
+XRequest::getValue('<CURSOR>')
+== Yii.模板.ActiveForm ==
+<div class="form">
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'<CURSOR>-form',
+	'enableAjaxValidation'=>false,
+)); ?>
+
+	<p class="note">Fields with <span class="required">*</span> are required.</p>
+
+	<?php echo $form->errorSummary($model); ?>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'`<TODO:属性名>`'); ?>
+		<?php echo $form->textField($model,'`<TODO:属性名>`'); ?>
+		<?php echo $form->error($model,'`<TODO:属性名>`'); ?>
+	</div>
+
+	<div class="row buttons">
+		<?php echo CHtml::submitButton('确认'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>

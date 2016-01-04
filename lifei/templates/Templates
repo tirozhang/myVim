@@ -1,0 +1,60 @@
+$
+$ =============================================================
+$ ========== USER MACROS ======================================
+$ =============================================================
+$
+|NULL|    = 
+|AUTHOR|    = 李飞 
+|AUTHORREF| = IT研发
+|EMAIL|     = lifei@kuxun.com
+|COMPANY|   = 北京酷讯互动科技有限公司
+|COPYRIGHT| = Copyright (c) |YEAR|, |AUTHOR|
+|EMPTY| = 
+$
+$ =============================================================
+$ ========== FILE INCLUDES ====================================
+$ =============================================================
+$
+
+
+
+ |includefile| = auto.template
+$|includefile| = custom.template
+ |includefile| = html.template
+ |includefile| = php.template
+$|includefile| = smarty.template
+$|includefile| = css.template
+$|includefile| = js.template
+$|includefile| = joomla.template
+ |includefile| = java.template
+$|includefile| = python.template
+ |includefile| = groovy.template
+
+ |includefile| = c.comments.template
+$|includefile| = c.cpp.template
+$|includefile| = c.idioms.template
+$|includefile| = c.preprocessor.template
+$|includefile| = c.statements.template
+$|includefile| = cpp.comments.template
+$|includefile| = cpp.cpp.template
+$|includefile| = cpp.idioms.template
+$|includefile| = cpp.preprocessor.template
+$|includefile| = cpp.statements.template
+$|includefile| = AutoComplete.template
+
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$      Global Macro
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+== template.AutoComplete.cur == insert ==
+<CURSOR><CURSOR>
+== template.AutoComplete.todo == insert ==
+`<TODO:<CURSOR>>`
+== all.Vim-Setting-String == insert ==
+// vim600: ts=4 st=4 foldmethod=marker foldmarker=<<<,>>> syn=|<-&syntax|
+// vim600: fenc=|<-&fenc| commentstring=//\ %s
+== all.AutoComplete.co.版权 == start ==
+/******************************************
+ * Author: Li Fei
+ * Email: lifei_job@yeah.net
+ *****************************************/

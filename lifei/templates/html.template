@@ -1,0 +1,96 @@
+== html.表单.插入文本域 ==
+<textarea rows="`<TODO>`" cols="`<TODO>`"></textarea>
+== html.表格.插入没有边框的表格 ==
+<table boder="0" cellpadding="0" cellspacing="0" align="`<...>`">
+    <tr>
+        <td>
+            `<...>`
+        </td>
+    </tr>
+</table>
+== html.表格.插入一个带有边框的表格 ==
+<table style="border: 1px solid rgb(155, 201, 223);" cellpadding="0" cellspacing="0" align="`<...>`">
+    <tr>
+        <td>
+            `<...>`
+        </td>
+    </tr>
+</table>           
+== html.Meta.设置页面编码 ==
+<meta http-equiv="Content-Type" content="text/html; charset=|?编码:utf-8|">
+== html.表单.插入提交按钮 ==
+<input name="Submit" value="|?名称:提交|" type="submit" />
+== html.表单.插入文本框 ==
+<input id="|?ID和名字|" name="|ID和名字|" value="`<...>`" type="text" />
+== html.表单.插入隐藏域 ==
+<input id="|?ID和名字|" name="|ID和名字|" value="`<...>`" type="hidden" />
+== html.表单.插入重设按钮 ==
+<input name="reset" value="`<重设>`" type="reset" />
+== html.代码.导航条 ==
+<style>
+  .links{
+    border-top: 1px solid #FFB447;
+    border-left: 1px solid #FFB447;
+    border-right: 1px solid #FFB447;
+    width:70px;
+    height:30px;
+    background-color:#FFF4D2;
+    font-size:14px;
+    font-family:宋体;
+    color:blue;
+    text-align:center;
+  }
+  .links_bottom{
+    background-color:#FFB447;
+    height:30px;
+  }
+</style>
+<table boder="0" cellpadding="0" cellspacing="0" align="center">
+  <tr>
+    <td class="links">
+      `<导航标题>`
+    </td>
+    <td width="5">
+    </td>
+    <td class="links">
+      `<导航标题>` 
+    </td>
+    <td width="5">
+    </td>
+    <td class="links">
+      `<导航标题>`
+    </td>
+    <td width="5">
+    </td>
+    <td class="links">
+      `<导航标题>` 
+    </td>
+    <td width="5">
+    </td>
+    <td class="links">
+      `<导航标题>` 
+    </td>
+  </tr>
+  <tr>
+    <td colspan="9" class="links_bottom"><td>
+  </tr>
+</table>           
+== html.表单.插入一个表单 ==
+<form action="`<表单提交的目标文件>`" method="POST">
+    <CURSOR>
+</form>
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+== html.插入CSS引用文件 ==
+<link href="`<css的路径>`" rel="stylesheet" type="text/css">
+== html.表单.插入下拉框 ==
+<select name="select">
+<option value="`<下拉框的值>`">`<下拉框的显示的值>`</option>
+</select>
+== html.插入Javascript引用文件 ==
+<script language="javascript" src="`<javascript文件的路径>`"></script>
+== xml.AutoComplete.hide == insert ==
+style="display:none;"
+== html.插入iframe ==
+<iframe width="`<TODO:>`" height="`<TODO:>`" name="`<TODO:>`" frameborder=0 src="`<TODO:>`"></iframe>
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+

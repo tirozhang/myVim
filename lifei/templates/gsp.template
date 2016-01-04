@@ -1,0 +1,6 @@
+== gsp.AutoComplete.vim == insert ==
+<%--
+vim600: ts=4 st=4 foldmethod=marker foldmarker={{{,}}} syn=gsp textwidth=1000
+vim600: encoding=utf-8 commentstring=<%--\ %s\ --%>
+--%>
+

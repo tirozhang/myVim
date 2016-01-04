@@ -1,0 +1,225 @@
+== javascript.AJAX.Get操作后提示并更新显示.getAjax ==
+function doAndGetData(url, url1, obj)
+{
+  g_prompt.show("操作正在进行中...", false);
+
+  // 进行删除等操作，url控制
+  $.get(url, function(data){
+
+          // 提示操作结果
+          g_prompt.show(data);
+
+          // 更新显示的区域
+          $("#" + obj).load(url1);
+      });
+
+}
+== javascript.AJAX.Post操作后提示并更新显示 ==
+function postAndGetData(id, action, obj, url1)
+{
+  var oForm = document.getElementById(id);
+  var sBody=getRequestBody(oForm);
+  g_prompt.show("操作正在进行中...", false);
+
+  // 进行删除等操作，url控制
+  $.ajax({
+      type:"POST",
+      url:action,
+      data:sBody,
+      success:function(data){
+
+        // 提示操作结果
+        g_prompt.show(data);
+
+        // 更新显示的区域
+        $("#" + obj).load(url1);
+      }
+    });
+}
+== javascript.AJAX.获取网页数据（不提交信息） ==
+// Required <javascript.提示类>
+// Required JQuery
+function getData(url, obj)
+{
+  g_prompt.show("操作正在进行中...", false);
+  $("#" + obj).load(url, function(){
+      g_prompt.hide();
+      });
+}
+== javascript.AJAX.获取XMLHTTP ==
+function CreateHTTPObject()
+{
+    var xmlhttp;
+    
+    try
+    {
+        xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+    }
+    catch (e)
+    {
+        try
+        {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        catch (e)
+        {
+            xmlhttp = false;
+        }
+    }
+    
+    if (!xmlhttp && typeof XMLHttpRequest!='undefined')
+    {
+        try
+        {
+            xmlhttp = new XMLHttpRequest();
+        }
+        catch (e)
+        {
+            xmlhttp=false;
+        }
+    }
+    
+    if (!xmlhttp && window.createRequest)
+    {
+        try
+        {
+            xmlhttp = window.createRequest();
+        }
+        catch (e)
+        {
+            xmlhttp=false;
+        }
+    }
+    
+    return xmlhttp;
+}
+== javascript.AJAX.提交某个表单到页面并返回结果 ==
+// 本例使用<javascript.AJAX.获取XMLHTTP>里面的函数
+
+function getRequestBody(oForm)
+{
+  var aParams=new Array();
+  if(oForm == null)
+    return "";
+  for(var i=0;i<oForm.elements.length;i++)
+  {
+    var sParam=encodeURIComponent(oForm.elements[i].name);
+    sParam+="=";
+    sParam+=encodeURIComponent(oForm.elements[i].value);
+    aParams.push(sParam);
+  }
+  return aParams.join("&");
+}
+
+function sendRequest(id,action)
+{
+  var oForm = document.getElementById(id);
+  var sBody=getRequestBody(oForm);
+  g_prompt.show("操作正在进行中...", false);
+
+  // 进行删除等操作，url控制
+  $.ajax({
+      type:"POST",
+      url:action,
+      data:sBody,
+      success:function(data){
+
+        // 提示操作结果
+        g_prompt.show(data);
+
+      }
+    });
+
+}
+== javascript.提示类 ==
+/*
+=============================
+//	自动提示类
+=============================
+*/
+function CLASS_PROMPT()
+{
+	var me = this;
+	this.timeout	        	= null;
+	this.active		        	= false;
+	this.loaded		        	= false;
+	this.obj		          	= document.createElement("span");
+	this.obj.className		  = "prompt";
+	this.obj.class		      = "prompt";
+	this.obj.title			    = "click me to hide"
+	this.obj.style.display	= "none";
+
+	this.obj.onclick = function(){me.hide();}
+}
+
+CLASS_PROMPT.prototype.show = function(str,autoHide)
+{
+	clearTimeout(this.timeout);
+
+	if(this.loaded==false)
+	{
+		if(typeof(document.body.firstChild)!="undefined"&&document.body.firstChild!=null)
+		{
+			document.body.insertBefore(this.obj,document.body.firstChild);
+		}
+		else
+		{
+			document.body.appendChild(this.obj);
+		}
+		this.loaded = true;
+	}
+	var me					        = this;
+	this.obj.style.display	= "";
+	this.active				      = true;
+
+
+	this.obj.style.position = "absolute";
+	this.obj.style.left 	  = (document.body.clientWidth  - this.obj.offsetWidth ) / 2 + document.body.scrollLeft;
+	this.obj.style.top		  = (document.body.clientHeight - this.obj.offsetHeight) / 2 + document.body.scrollTop - 100;
+
+	this.obj.innerHTML	  	= str;
+
+	if(autoHide != false)
+	{
+		this.timeout	= setTimeout(	
+										function()
+										{
+											me.obj.style.display	= "none";
+											me.active				= false;											
+										}
+										,1500
+									 );
+	}
+}
+CLASS_PROMPT.prototype.hide = function()
+{
+	clearTimeout(this.timeout);
+	this.obj.style.display = "none";
+	this.active = false;
+}
+
+== javascript.取滚动条位置 ==
+/********************************************
+ *
+ * 取滚动条位置
+ *
+ * *****************************************/
+
+function getScroll()   
+{   
+  var t, l, w, h;   
+
+  if (document.documentElement && document.documentElement.scrollTop) {   
+    t = document.documentElement.scrollTop;   
+    l = document.documentElement.scrollLeft;   
+    w = document.documentElement.scrollWidth;   
+    h = document.documentElement.scrollHeight;   
+  } else if (document.body) {   
+    t = document.body.scrollTop;   
+    l = document.body.scrollLeft;   
+    w = document.body.scrollWidth;   
+    h = document.body.scrollHeight;   
+  }   
+  return { t: t, l: l, w: w, h: h };   
+}   
+

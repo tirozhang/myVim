@@ -1,0 +1,11 @@
+== css.下划线相关 ==
+a:link {text-decoration:underline;color:#0A6ABE;}
+a:visited {text-decoration:none;color:#0A6ABE;}
+a:hover {text-decoration:none;color:#0A6ABE;}
+a:active {text-decoration:none;color:#0A6ABE;}
+== css.li格式化列表符 ==
+li{
+    list-style-type:none;
+    list-style-image: url(<CURSOR>);
+}
+$###################################################

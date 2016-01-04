@@ -1,0 +1,351 @@
+== java.ginio.ImportPackage ==
+import com.ginio.http.*;
+== java.ginio.HttpCacheManager.Define ==
+/** HttpCacheManager Class */
+private HttpCacheManager httpCache = new HttpCacheManager("<CURSOR>");
+== java.ginio.HttpCacheManager.InitProxy ==
+httpCache.initProxy("<CURSOR>");
+== java.ginio.Add.New.Crawler.Class ==
+package com.ginio.crawler;
+
+import com.ginio.http.*;
+
+/**
+ * Class Name: Crawler_|?Site|
+ *  
+ * Description: crawler for |Site|
+ */
+public class Crawler_|Site|
+{
+
+
+    /** Define the Connection */
+    // should be a private attribution of a class
+    private java.sql.Connection connection = null; 
+    private java.sql.Statement statementQuery = null;
+    private java.sql.Statement statementInsert = null;
+
+    /** Log4J Logger object for logging */
+    private org.apache.log4j.Logger logger = null;
+
+
+    /** HttpCacheManager Class */
+    private HttpCacheManager httpCache = new HttpCacheManager("/home/lifei/cache/|Site|");
+
+    /** Site Url */
+    private String urlBase = "`<URL>`";
+
+    /** construction */
+    Crawler_|Site|()
+    {
+        // use in the construction of a class
+        logger = org.apache.log4j.Logger.getLogger(getClass().getName());
+    }
+
+    private void initMySQL()
+    {
+        String url =
+            "jdbc:mysql://localhost:3306/audio_db?useUnicode=true&characterEncoding=gb2312";
+        String username = "root";
+        String password = "";
+        // Load Driver
+        try {
+            Class.forName( "org.gjt.mm.mysql.Driver" );
+            connection = java.sql.DriverManager.getConnection(
+                    url, username, password );
+            statementQuery = connection.createStatement();
+            statementInsert = connection.createStatement();
+        }
+        // Catch Driver Loading Exception
+        catch ( ClassNotFoundException cnfex ) {
+            System.err.println(
+                    "Load JDBC/ODBC Driver Failed." );
+            cnfex.printStackTrace();
+            System.exit( 1 ); // terminate program
+        }
+        // Connection Exception
+        catch ( java.sql.SQLException sqlex ) {
+            System.err.println( "Unable to connect the server" );
+            sqlex.printStackTrace();
+            System.exit( 1 ); // terminate program
+        } 
+    }
+
+    private void closeConnection()
+    {
+    try
+    {
+        if(statementQuery != null)
+        {
+            statementQuery.close();
+        }
+        if(statementInsert != null)
+        {
+            statementInsert.close();
+        }
+        if(connection != null)
+            connection.close();
+    }
+    catch(java.sql.SQLException ex)
+    {
+        ex.printStackTrace();
+    }
+    }
+    private void process()
+    {
+        /**
+        String list = "abcdefghijklmnopqrstuvwxyz";
+
+        for(int i = 0; i < list.length(); ++i)
+        {
+            String link = urlBase + list.charAt(i);
+            int page = 1;
+            while(processIndexPage(link, page)
+                page++;
+        }
+        // */
+
+        /**
+          Vector<String> lines = new Vector<String>();  
+        BufferedReader in = null;  
+
+        try {  
+            in = new BufferedReader(new InputStreamReader(new FileInputStream("/home/lifei/work/audio_crawler/data/singer_1.txt")));  
+            String s = null;  
+
+            int count = 0;
+            while (null != (s = in.readLine())) 
+            {  
+
+                // this section used to continue crawling 
+                // if there's something wrong
+                if(count < 1095)
+                {
+                    count++;
+                    continue;
+                }
+                // trim the string
+                s = s.trim();
+
+                log.info("Deal with singer:"+s);
+
+                // trim more space
+                s = Util.removeRegexText(s, "[ \\t]{1,}", "+");
+
+                // construct the url of index page
+                String base_url = "http://www.lrc123.com/?field=all&keyword="+s;
+
+
+                // index of page
+                int page = 1;
+
+                while(processIndexPage(base_url, page))
+                {
+                    page++;
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        */
+    }
+
+    private void processIndexPage(String url)
+    {
+        String content = httpCache.getContent(url);
+
+        java.util.regex.Pattern listRegex = java.util.regex.Pattern.compile(
+                `<Regex>`, 
+                java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.DOTALL);
+        java.util.regex.Matcher listMatcher = listRegex.matcher(content);
+        while(listMatcher.find())
+        {
+            processSingerPage(listMatcher.group(1));
+        }
+    }
+
+    private void processSingerPage(String url)
+    {
+        String content = httpCache.getContent(url);
+
+        java.util.regex.Pattern listRegex = java.util.regex.Pattern.compile(
+                `<Regex>`, 
+                java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.DOTALL);
+        java.util.regex.Matcher listMatcher = listRegex.matcher(content);
+        while(listMatcher.find())
+        {
+            processSongPage(listMatcher.group(1));
+        }
+    }
+
+    private void processSongPage(String url)
+    {
+        String lyric = httpCache.getContent(url);
+
+        java.util.regex.Pattern titleRegex = java.util.regex.Pattern.compile(
+                "\\[ti:([^\\]\\[]+)", 
+                java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.DOTALL);
+        java.util.regex.Matcher titleMatcher = titleRegex.matcher(lyric);
+
+        java.util.regex.Pattern artistRegex = java.util.regex.Pattern.compile(
+                "\\[ar:([^\\]\\[]+)", 
+                java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.DOTALL);
+        java.util.regex.Matcher artistMatcher = artistRegex.matcher(lyric);
+
+        java.util.regex.Pattern albumRegex = java.util.regex.Pattern.compile(
+                "\\[al:([^\\]\\[]+)", 
+                java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.DOTALL);
+        java.util.regex.Matcher albumMatcher = albumRegex.matcher(lyric);
+
+        boolean isTitleMatch = titleMatcher.find();
+
+        if(isTitleMatch)
+        {
+            String title = titleMatcher.group(1);
+            String artist = "";
+            String album = ""; 
+
+            if(artistMatcher.find())
+            {
+                artist = artistMatcher.group(1);
+                artist = artist.trim().replaceAll("'|\\\\'", "''"); 
+            }
+
+            if(albumMatcher.find())
+            {
+                album = albumMatcher.group(1);
+                album = album.trim().replaceAll("'|\\\\'", "''"); 
+            }
+
+            lyric = lyric.replaceAll("\r", "")
+                //.replaceAll("\\[.*?\\]", "") // Time
+                .replaceAll("<BR>|<br>|<br />|<BR />|<Br>|<Br />", "\n")
+                .replaceAll("<(b|B)>.*?</(B|b)>", "")
+                .replaceAll("<.*?>", "")
+                .replaceAll("[ \t]+", " ")
+                .replaceAll("[\n\\^]\\s+|\\s+\n", "\n") 
+                .replaceAll("[\n]+", "\n");
+
+            title  = title.trim().replaceAll("'|\\\\'", "''");
+            url    = url  .trim().replaceAll("'|\\\\'", "''");
+            lyric  = lyric.trim().replaceAll("'|\\\\'", "''");
+
+
+            String sql = "insert into test_lyric (artist, album, title, url, lyric)values('" +
+                artist + "','" +
+                album  + "','" +
+                title  + "','" +
+                url    + "','" +
+                lyric  + "');";
+
+            sql = sql.replaceAll("\\\\'", "'");
+            sql = sql.replaceAll("\\\\'", "'");
+
+            sql = sql.replaceAll("\\\\'", "'");
+            sql = sql.replaceAll("\\\\'", "'");
+
+            try 
+            {
+                statementInsert.executeUpdate(sql);
+
+                String info = "{INSERT}Artist:"+artist+",Title:"+title;
+                System.out.println(info); 
+                logger.info(info);
+            }
+            catch ( java.sql.SQLException ex )
+            {
+                if(ex.getErrorCode() != 1062)
+                {
+                    logger.error(ex.getMessage() + Integer.toString(ex.getErrorCode()) 
+                            + "\nErrorURL:" + url
+                            + ",Artist:" + artist + ",Title:" + title
+                            + "\nSQL:"+sql);
+                }
+            } 
+        }
+        else
+        {
+            logger.error("\n{NOMATCH}:"+url);
+        }
+    }
+
+
+    /** main function */
+    public static void main(String[] argv)
+    {
+
+        // use in main function
+        final String configFile =
+        "/home/lifei/work/audio_crawler/conf/|Site|.conf";
+
+        java.io.File f = new java.io.File(configFile);
+        if (f.exists()) {
+            // read the logging properties from configuration file
+            org.apache.log4j.PropertyConfigurator.configure(configFile);
+        } else {
+            org.apache.log4j.BasicConfigurator.configure();
+        }
+
+        Crawler_|Site| crawler = new Crawler_|Site|();
+        crawler.initMySQL();
+        crawler.process();
+    //  crawler.processSongPage();
+        crawler.closeConnection();
+    }
+}
+== java.ginio.PostProcessLyric == append ==
+replaceAll("\r", "")
+//.replaceAll("\\[.*?\\]", "") // Time
+  .replaceAll("<BR>|<br>|<br />|<BR />|<Br>|<Br />", "\n")
+  .replaceAll("<(b|B)>.*?</(B|b)>", "")
+  .replaceAll("<.*?>", "")
+  .replaceAll("[ \t]+", " ")
+  .replaceAll("[\n\\^]\\s+|\\s+\n", "\n") 
+  .replaceAll("[\n]+", "\n");
+== java.ginio.Lyric.Crawler.FormatData ==
+singer = singer.trim();
+album  =  album.trim();
+song   =   song.trim();
+lyric  =  lyric.trim();
+
+singer = singer.replaceAll("'|\\\\'", "''");
+album  =  album.replaceAll("'|\\\\'", "''");
+song   =   song.replaceAll("'|\\\\'", "''");
+lyric  =  lyric.replaceAll("'|\\\\'", "''");
+== java.ginio.Lyric.Crawler.CreateInsertSQLAndRun ==
+String sql = 
+"insert into test_lyric (artist, album, title, url, lyric) values ('"
++ singer + "','" + album + "','" + song + "','" + url + "','"
++ lyric + "');";
+
+java.sql.Statement statement = null;
+try 
+{
+    statement = connection.createStatement();
+    statement.executeUpdate(sql);
+}
+catch ( java.sql.SQLException sqlex )
+{
+    sqlex.printStackTrace();
+} 
+finally
+{
+    try
+    {
+        if(statement != null)
+        {
+            statement.close();
+        }
+        if(connection != null)
+            connection.close();
+    }
+    catch(java.sql.SQLException ex)
+    {
+        ex.printStackTrace();
+    }
+}
+== java.ginio.Lyric.Crawler.AnalyseLrcFile ==
+

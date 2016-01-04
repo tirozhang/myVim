@@ -1,0 +1,55 @@
+$    vim600: ts=4 st=4 foldmethod=marker foldmarker={{{,}}} 
+$    vim600: encoding=utf-8 
+  
+== java.AutoComplete.try == insert ==
+${{{
+try
+{
+    <CURSOR>
+}
+catch(Exception ex)
+{
+    ex.printStackTrace();
+}
+$}}}
+== java.AutoComplete.if == insert ==
+${{{
+if(<CURSOR>)
+{
+    `<TODO: enter your code>`
+}
+$}}}
+== java.AutoComplete.for == insert ==
+${{{
+for(<CURSOR>; `<...>`; `<...>`)
+{
+    `<...>`
+}
+$}}}
+== java.AutoComplete.quo == insert ==
+${{{
+trim().replaceAll("'|\\\\'", "''")<CURSOR>
+$}}}
+== java.AutoComplete.out == insert ==
+${{{
+System.out.println(<CURSOR>);
+$}}}
+== java.AutoComplete.i2s == insert ==
+${{{
+$ 整数转字符串
+Integer.toString(<CURSOR>)
+$}}}
+== java.AutoComplete.s2i == insert ==
+${{{
+$ 字符串转换为整数
+Integer.parseInt(<CURSOR>);
+$}}}
+== java.AutoComplete.while == insert ==
+${{{
+while(<CURSOR>)
+{
+    `<TODO>` 
+}
+$}}}
+== java.AutoComplete.exit == insert ==
+System.exit(<CURSOR>);

@@ -1,0 +1,24 @@
+== python.AutoComplete.tr == insert ==
+strip()
+== python.AutoComplete.regex == insert ==
+<CURSOR> = re.compile(`<RegexText>`)
+== python.AutoComplete.if == insert ==
+if <CURSOR>:
+       `<TODO>` 
+== python.AutoComplete.split == insert ==
+list_|?String| = |String|.split()
+for line_|String| in list_|String|:
+    `<TODO>`
+== python.AutoComplete.readline == inser ==
+for line in file(<CURSOR>):
+    `<TODO>`
+== python.AutoComplete.file == insert ==
+|?File| = open(<CURSOR>, 'w')
+|File|.write(`<TODO>`)
+|File|.close()
+== python.AutoComplete.info == insert ==
+logger.info(<CURSOR>)
+== python.AutoComplete.debug == insert ==
+logger.debug(<CURSOR>)
+== python.AutoComplete.error == insert ==
+logger.error(<CURSOR>)

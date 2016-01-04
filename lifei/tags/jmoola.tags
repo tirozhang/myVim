@@ -1,0 +1,181 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.7	//
+CONFIG	framework.php	/^$CONFIG = new JConfig();$/;"	v
+JDEBUG	framework.php	/^define( 'JDEBUG', $CONFIG->debug );$/;"	d
+JMenuSite	menu.php	/^class JMenuSite extends JMenu$/;"	c
+JPATH_ADMINISTRATOR	defines.php	/^define( 'JPATH_ADMINISTRATOR', 	JPATH_ROOT.DS.'administrator' );$/;"	d
+JPATH_CACHE	defines.php	/^define( 'JPATH_CACHE',			JPATH_BASE.DS.'cache');/;"	d
+JPATH_CONFIGURATION	defines.php	/^define( 'JPATH_CONFIGURATION', 	JPATH_ROOT );$/;"	d
+JPATH_INSTALLATION	defines.php	/^define( 'JPATH_INSTALLATION',	JPATH_ROOT.DS.'installation' );$/;"	d
+JPATH_LIBRARIES	defines.php	/^define( 'JPATH_LIBRARIES',	 	JPATH_ROOT.DS.'libraries' );$/;"	d
+JPATH_PLUGINS	defines.php	/^define( 'JPATH_PLUGINS',		JPATH_ROOT.DS.'plugins'   );$/;"	d
+JPATH_ROOT	defines.php	/^define( 'JPATH_ROOT',			implode( DS, $parts ) );$/;"	d
+JPATH_SITE	defines.php	/^define( 'JPATH_SITE',			JPATH_ROOT );$/;"	d
+JPATH_THEMES	defines.php	/^define( 'JPATH_THEMES'	   ,	JPATH_BASE.DS.'templates' );$/;"	d
+JPATH_XMLRPC	defines.php	/^define( 'JPATH_XMLRPC', 		JPATH_ROOT.DS.'xmlrpc' );$/;"	d
+JPathwaySite	pathway.php	/^class JPathwaySite extends JPathway$/;"	c
+JRouterSite	router.php	/^class JRouterSite extends JRouter$/;"	c
+JSite	application.php	/^class JSite extends JApplication$/;"	c
+_PROFILER	framework.php	/^	$_PROFILER =& JProfiler::getInstance( 'Application' );$/;"	v
+__construct	application.php	/^	function __construct($config = array())$/;"	f
+__construct	database.mysqli.php	/^	function __construct ($host='localhost', $user, $pass, $db='', $table_prefix='', $offline = true) {$/;"	f
+__construct	database.php	/^	function __construct ($host='localhost', $user, $pass, $db='', $table_prefix='', $offline = true) {$/;"	f
+__construct	pathway.php	/^	function __construct($options = array())$/;"	f
+__construct	router.php	/^	function __construct($options = array()) {$/;"	f
+_buildRawRoute	router.php	/^	function _buildRawRoute(&$uri)$/;"	f
+_buildSefRoute	router.php	/^	function _buildSefRoute(&$uri)$/;"	f
+_createURI	router.php	/^	function &_createURI($url)$/;"	f
+_parseRawRoute	router.php	/^	function _parseRawRoute(&$uri)$/;"	f
+_parseSefRoute	router.php	/^	function _parseSefRoute(&$uri)$/;"	f
+_processBuildRules	router.php	/^	function _processBuildRules(&$uri)$/;"	f
+_processParseRules	router.php	/^	function _processParseRules(&$uri)$/;"	f
+aid	application.php	/^		$aid	= $user->get('aid');$/;"	v
+app	router.php	/^			$app =& JFactory::getApplication();$/;"	v
+app	router.php	/^		$app =& JFactory::getApplication();$/;"	v
+authorize	application.php	/^	function authorize($itemid)$/;"	f
+build	router.php	/^	function &build($url)$/;"	f
+built	router.php	/^				$built = true;$/;"	v
+built	router.php	/^		$built = false;$/;"	v
+cache	menu.php	/^		$cache = &JFactory::getCache('_system', 'output');$/;"	v
+client	application.php	/^				$client	=& JApplicationHelper::getClientInfo($this->getClientId());$/;"	v
+component	router.php	/^			$component = preg_replace('\/[^A-Z0-9_\\.-]\/i', '', $this->_vars['option']);$/;"	v
+component	router.php	/^		$component	= preg_replace('\/[^A-Z0-9_\\.-]\/i', '', $query['option']);$/;"	v
+config	application.php	/^		$config =& JFactory::getConfig();$/;"	v
+contents	application.php	/^		$contents = JComponentHelper::renderComponent($component);$/;"	v
+data	application.php	/^		$data = $document->render( $this->getCfg('caching'), $params);$/;"	v
+database	database.mysqli.php	/^class database extends JDatabase {$/;"	c
+database	database.php	/^class database extends JDatabase {$/;"	c
+db	application.php	/^		$db =& JFactory::getDBO();$/;"	v
+db	database.mysqli.php	/^	function __construct ($host='localhost', $user, $pass, $db='', $table_prefix='', $offline = true) {$/;"	v
+db	database.php	/^	function __construct ($host='localhost', $user, $pass, $db='', $table_prefix='', $offline = true) {$/;"	v
+db	menu.php	/^		$db		= & JFactory::getDBO();$/;"	v
+description	application.php	/^			$description = $this->getCfg('MetaDesc');$/;"	v
+dispatch	application.php	/^	function dispatch($component)$/;"	f
+document	application.php	/^		$document	=& JFactory::getDocument();$/;"	v
+document	application.php	/^		$document =& JFactory::getDocument();$/;"	v
+file	application.php	/^					$file = 'component';$/;"	v
+file	application.php	/^					$file = 'offline';$/;"	v
+file	application.php	/^				$file 		= JRequest::getCmd('tmpl', 'index');$/;"	v
+format	application.php	/^		$format = $document->getType();$/;"	v
+function	router.php	/^				$function =  substr($component, 4).'ParseRoute';$/;"	v
+function	router.php	/^			$function	= substr($component, 4).'BuildRoute';$/;"	v
+getMenu	application.php	/^	function &getMenu()$/;"	f
+getPageParameters	application.php	/^	function &getPageParameters( $option = null )$/;"	f
+getParams	application.php	/^	function &getParams($option = null)$/;"	f
+getPathWay	application.php	/^	function &getPathWay()$/;"	f
+getRouter	application.php	/^	function &getRouter()$/;"	f
+getTemplate	application.php	/^	function getTemplate()$/;"	f
+hash	application.php	/^		$hash = '__default';$/;"	v
+hash	application.php	/^		if(!empty($option)) $hash = $option;$/;"	v
+home	pathway.php	/^			$home	= $menu->getDefault();$/;"	v
+id	application.php	/^			$id = $item->id;$/;"	v
+id	application.php	/^		$id = 0;$/;"	v
+initialise	application.php	/^	function initialise( $options = array())$/;"	f
+item	application.php	/^		$item = $menu->getActive();$/;"	v
+item	router.php	/^				$item  = $menu->getItem($itemid);$/;"	v
+item	router.php	/^				$item  = $menu->getItem($this->getVar('Itemid'));$/;"	v
+item	router.php	/^			$item   = $menu->getItem($itemid);$/;"	v
+item	router.php	/^			$item = $menu->getDefault();$/;"	v
+item	router.php	/^			$item = $menu->getItem($query['Itemid']);$/;"	v
+item	router.php	/^			$item = $menu->getItem($this->getVar('Itemid'));$/;"	v
+itemid	router.php	/^			$itemid = $uri->getVar('Itemid');$/;"	v
+itemid	router.php	/^		$itemid = $uri->getVar('Itemid');$/;"	v
+items	router.php	/^			$items = array_reverse($menu->getMenu());$/;"	v
+key	menu.php	/^		foreach($menus as $key => $menu)$/;"	v
+lang	application.php	/^			$lang	= $user->getParam( 'language' );$/;"	v
+lenght	router.php	/^				$lenght = strlen($item->route); \/\/get the lenght of the route$/;"	v
+link	pathway.php	/^					$link = $menu->getItem($menupath);$/;"	v
+load	menu.php	/^	function load()$/;"	f
+login	application.php	/^	function login($credentials, $options = array())$/;"	f
+menu	application.php	/^			$menu	= $menus->getActive();$/;"	v
+menu	application.php	/^		$menu =& JSite::getMenu();$/;"	v
+menu	application.php	/^		$menu =& parent::getMenu('site', $options);$/;"	v
+menu	pathway.php	/^		$menu   =& JSite::getMenu();$/;"	v
+menu	router.php	/^			$menu =& JSite::getMenu();$/;"	v
+menu	router.php	/^		$menu  =& JSite::getMenu(true);$/;"	v
+menu	router.php	/^		$menu =& JSite::getMenu();$/;"	v
+menu	router.php	/^		$menu =& JSite::getMenu(true);$/;"	v
+menus	application.php	/^			$menus	=& JSite::getMenu();$/;"	v
+menus	application.php	/^		$menus	=& JSite::getMenu();$/;"	v
+menus	pathway.php	/^			$menus	= $menu->getMenu();$/;"	v
+option	application.php	/^				$option = JRequest::getCmd('option');$/;"	v
+option	application.php	/^	function &getPageParameters( $option = null )$/;"	v
+options	application.php	/^		$options = array();$/;"	v
+options	application.php	/^	function initialise( $options = array())$/;"	v
+options	application.php	/^	function login($credentials, $options = array())$/;"	v
+params	application.php	/^				$params =  JComponentHelper::getParams('com_languages');$/;"	v
+params	application.php	/^				$params = array($/;"	v
+params	application.php	/^				$params = array();$/;"	v
+params	application.php	/^		$params     =& $this->getParams();$/;"	v
+params	application.php	/^		static $params = array();$/;"	v
+parent_route	menu.php	/^				$parent_route = $menus[$parent]->route.'\/';$/;"	v
+parent_route	menu.php	/^			$parent_route = '';$/;"	v
+parent_tree	menu.php	/^				$parent_tree  = $menus[$parent]->tree;$/;"	v
+parent_tree	menu.php	/^			$parent_tree  = array();$/;"	v
+parse	router.php	/^	function parse(&$uri)$/;"	f
+parts	defines.php	/^$parts = explode( DS, JPATH_BASE );$/;"	v
+parts	router.php	/^				$parts = $this->_encodeSegments($parts);$/;"	v
+parts	router.php	/^			$parts		= $function($query);$/;"	v
+path	router.php	/^					$path = str_replace('.'.$suffix, '', $path);$/;"	v
+path	router.php	/^			$path = JPATH_SITE.DS.'components'.DS.$component.DS.'router.php';$/;"	v
+path	router.php	/^		$path = $uri->getPath();$/;"	v
+path	router.php	/^		$path = JPATH_SITE.DS.'components'.DS.$component.DS.'router.php';$/;"	v
+path	router.php	/^		$path = str_replace('index.php', '', $path);$/;"	v
+path	router.php	/^		$path = substr_replace($path, '', 0, strlen(JURI::base(true)));$/;"	v
+pathway	application.php	/^		$pathway =& parent::getPathway('site', $options);$/;"	v
+query	application.php	/^		$query = 'SELECT template'$/;"	v
+query	router.php	/^		$query = $uri->getQuery(true);$/;"	v
+render	application.php	/^	function render()$/;"	f
+result	router.php	/^			$result = implode('\/', $parts);$/;"	v
+return	application.php	/^				$return		= $uri->toString();$/;"	v
+route	application.php	/^	function route() {$/;"	f
+route	menu.php	/^			$route = $parent_route.$menus[$key]->alias;$/;"	v
+route	router.php	/^					$route   = substr($route, $lenght);$/;"	v
+route	router.php	/^				$route = str_replace('index.php\/', '', $route);$/;"	v
+route	router.php	/^			$route      = str_replace('component\/'.$segments[1], '', $route);$/;"	v
+route	router.php	/^		$route = $uri->getPath();$/;"	v
+router	application.php	/^		$router     =& $this->getRouter();$/;"	v
+router	application.php	/^		$router =& parent::getRouter('site', $options);$/;"	v
+segments	router.php	/^					$segments = $this->_decodeSegments($segments);$/;"	v
+segments	router.php	/^			$segments	= explode('\/', $route);$/;"	v
+segments	router.php	/^			$segments = explode('\/', $route);$/;"	v
+setTemplate	application.php	/^	function setTemplate( $template )$/;"	f
+sql	menu.php	/^		$sql	= 'SELECT m.*, c.`option` as component' .$/;"	v
+template	application.php	/^				$template	= $this->getTemplate();$/;"	v
+template	application.php	/^			$template = 'rhuk_milkyway';$/;"	v
+template	application.php	/^		$template = $db->loadResult();$/;"	v
+template	application.php	/^		$template = JFilterInput::clean($template, 'cmd'); \/\/ need to filter the default value as well$/;"	v
+template	application.php	/^		$template = JRequest::getCmd('template', $template);$/;"	v
+title	application.php	/^				$title = $menu->name;$/;"	v
+title	application.php	/^			$title       = htmlspecialchars_decode($this->getCfg('sitename' ));$/;"	v
+tmp	router.php	/^				$tmp = !empty($tmp) ? $item->route.'\/'.$tmp : $item->route;$/;"	v
+tmp	router.php	/^			$tmp	= ($result != "") ? '\/'.$result : '';$/;"	v
+tmp	router.php	/^			$tmp = 'component\/'.substr($query['option'], 4).'\/'.$tmp;$/;"	v
+tmp	router.php	/^		$tmp 		= '';$/;"	v
+uri	application.php	/^				$uri		= JFactory::getURI();$/;"	v
+uri	router.php	/^		$uri =& parent::_createURI($url);$/;"	v
+uri	router.php	/^		$uri =& parent::build($url);$/;"	v
+url	application.php	/^				$url  = 'index.php?option=com_user&view=login';$/;"	v
+url	menu.php	/^			   $url = str_replace('&amp;','&',$url);$/;"	v
+url	menu.php	/^			$url = str_replace('index.php?', '', $menus[$key]->link);$/;"	v
+url	pathway.php	/^							$url = $link->link;$/;"	v
+url	pathway.php	/^							$url = 'index.php?Itemid='.$link->id;$/;"	v
+url	pathway.php	/^							$url = null;$/;"	v
+url	pathway.php	/^					$url  = '';$/;"	v
+user	application.php	/^			$user = & JFactory::getUser();$/;"	v
+user	application.php	/^		$user		=& JFactory::getUser();$/;"	v
+user	application.php	/^		$user	=& JFactory::getUser();$/;"	v
+user	application.php	/^		$user     =& JFactory::getUser();$/;"	v
+vars	router.php	/^				$vars =  $function($segments);$/;"	v
+vars	router.php	/^				$vars = $item->query;$/;"	v
+vars	router.php	/^			$vars = $item->query;$/;"	v
+vars	router.php	/^			$vars = $vars + $item->query;$/;"	v
+vars	router.php	/^		$vars   = array();$/;"	v
+vars	router.php	/^		$vars = $uri->getQuery(true);$/;"	v
+vars	router.php	/^		$vars = array();$/;"	v
+vars	router.php	/^		$vars = parent::_processParseRules($uri);$/;"	v
+version	footer.php	/^$version = new JVersion();$/;"	v

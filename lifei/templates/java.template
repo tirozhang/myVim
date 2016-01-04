@@ -1,0 +1,119 @@
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+ |includefile| = java.mysql.template
+ |includefile| = java.auto.template
+ |includefile| = java.ginio.template
+ |includefile| = java.file.template
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+== java.String.split ==
+String[] |?String|List = |String|.split(<CURSOR>);
+for(int |String|Pos = 0; |String|Pos < |String|List.length; ++|String|Pos)
+{
+    `<TODO>`
+}
+$ Convert转换 <<<
+== java.Convert.字符串转换成数字 == 
+try
+{
+    <CURSOR> = Integer.parseInt(`<字符串>`);
+}
+catch(NumberFormatException ex)
+{
+    `<ex.printStackTrace()>`;
+}
+== java.Convert.整数转字符串 == insert ==
+Integer.toString(<CURSOR>)
+$ >>>
+== java.Regex.多行匹配 ==
+java.util.regex.Pattern |?Title|Regex = java.util.regex.Pattern.compile(<CURSOR>, 
+        java.util.regex.Pattern.MULTILINE | java.util.regex.Pattern.DOTALL
+        `<| java.util.regex.Pattern.CASE_INSENSITIVE>`);
+java.util.regex.Matcher |Title|Matcher = |Title|Regex.matcher(`<字符串>`);
+while(|Title|Matcher.find())
+{
+    `<System.out.println(|Title|Matcher.group(1));>`
+}
+$ log4j <<<
+== java.log4.1_定义一个Logger ==
+/** Log4J Logger object for logging */
+private org.apache.log4j.Logger logger = null;
+== java.log4.2_初始化一个Logger ==
+// use in the construction of a class
+logger = org.apache.log4j.Logger.getLogger(getClass().getName());
+== java.log4.3_初始化log4 ==
+// use in main function
+final String configFile = <CURSOR>;
+
+java.io.File f = new java.io.File(configFile);
+if (f.exists()) {
+    // read the logging properties from configuration file
+    org.apache.log4j.PropertyConfigurator.configure(configFile);
+} else {
+    org.apache.log4j.BasicConfigurator.configure();
+}
+$ >>>
+== java.Improt.常用包引用 ==
+//  BufferedRead et al.
+//  import java.io.*;
+//
+//  Net, URL
+//  import java.net.*;
+//
+//  Date, Locale, Properties, TimeZone
+//  import java.util.*;
+//
+//  Zip
+//  import java.util.zip.ZipEntry;
+//  import java.util.zip.ZipFile;
+//  import java.util.zip.ZipOutputStream;
+//  
+//  JoBo
+//  import net.matuschek.util.*;
+//  import net.matuschek.http.*;
+//  import net.matuschek.jobo.JoBo; // call JoBo.initializeLogging(); to init log.
+//
+//  log4
+//  import org.apache.log4j.Category;
+//  import com.ginio.http.*;
+== java.Class.定义一个类 ==
+/**
+ * Class Name: |?类的名称|
+ *  
+ * Description: `<说明>`
+ */
+`<public >`class |类的名称|
+{
+
+    /** construction */
+    |类的名称|()
+    {
+    }
+
+
+    /** main function */
+    public static void main(String[] argv)
+    {
+    }
+}
+== java.Comment.File == above ==
+/********************************
+ * File Name: |FILENAME|
+ * Arthor   : |AUTHOR|
+ * Email    : |EMAIL|
+ *
+ ********************************
+$ Timer定时类 <<<
+== java.Timer.执行定时任务 ==
+Timer timer = new java.util.Timer()
+timer.scheduleAtFixedRate(`<TODO: Task类实例>`, 0, 3600*1000)
+== java.Timer.定时类模板 ==
+static class <CURSOR> extends java.util.TimerTask {
+    @Override
+    public void run() {
+        `<TODO: 执行的代码>` 
+    }
+}
+$ >>>
+$ vim600: ts=4 st=4 foldmethod=marker foldmarker=<<<,>>> syn=java
+$ vim600: encoding=utf-8 commentstring=$\ %s

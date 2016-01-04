@@ -1,0 +1,27 @@
+nnoremap <buffer> <silent> <Leader>je :call Vjde_ext_import()<CR>
+nnoremap <buffer> <silent> <Leader>jg :call Vjde_get_set()<CR>
+nnoremap <buffer> <silent> <Leader>jc :call VjdeGenerateConstructor()<CR>
+nnoremap <buffer> <silent> <Leader>jt :call Vjde_surround_try()<CR>
+vnoremap <buffer> <silent> <Leader>js :call Vjde_sort_import()<CR>
+
+nnoremap <buffer> <silent> <Leader>fr :call Vjde_fix_throws()<CR>
+nnoremap <buffer> <silent> <Leader>ft :call Vjde_fix_try()<CR>
+nnoremap <buffer> <silent> <Leader>fi :call Vjde_fix_import()<CR>
+nnoremap <buffer> <silent> <Leader>ai :call Vjde_fix_import1()<CR>
+nnoremap <buffer> <silent> <Leader>ri :call Vjde_remove_imports()<CR>
+" extract variable to local
+nnoremap <buffer> <silent> <Leader>el :call Vjde_rft_var(2)<CR>
+" extract variable to member
+nnoremap <buffer> <silent> <Leader>em :call Vjde_rft_var(1)<CR>
+nnoremap <buffer> <silent> <Leader>ep :call Vjde_rft_arg()<CR>
+vnoremap <buffer> <silent> <Leader>en :call Vjde_rft_const()<CR>
+
+nnoremap <buffer> <silent> <Leader>oe :call Vjde_override(0)<CR>
+nnoremap <buffer> <silent> <Leader>oi :call Vjde_override(1)<CR>
+nnoremap <buffer> <silent> <Leader>as :call VjdeAppendTemplate("Singleton")<CR>
+imap <M-g> <ESC> :call <SID> Vjde_get_set()<cr>
+map <M-g> :call <SID>Vjde_get_set()<cr>
+
+au BufEnter *.java nnoremap <F7> :Vjdec<cr>
+au BufEnter *.java nnoremap <F5> :Vjder<cr>
+au BufEnter *.java nnoremap H :Vjdei<cr>

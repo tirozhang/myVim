@@ -1,0 +1,32 @@
+== php.Joomla.数据库操作 ==
+    $db = &JFactory::getDBO();
+
+    $|?变量名称| = new stdClass;
+    $|变量名称|->title         = $title;
+    $|变量名称|->date          = $time;
+    $|变量名称|->specification = $specification;
+    // 主键设为NULL表示插入，否则为更新
+    $|变量名称|->id            = NULL;
+
+if($db->insertObject('`<TODO:数据表名>`', $|变量名称|, 'id'/*主键*/)) {
+    return $|变量名称|->id;
+} else {
+    return $db->stderr();
+}
+== php.Joomla.读取Request参数 ==
+ $|?变量名称|      = htmlspecialchars(JRequest::getVar('|变量名称|', `<TODO:默认值>`),    ENT_QUOTES);
+
+
+
+
+
+
+
+
+
+
+
+
+
+$ vim600: ts=4 st=4 foldmethod=marker foldmarker={{{,}}} syn=template 
+$ vim600: encoding=utf-8 commentstring=//\ %s

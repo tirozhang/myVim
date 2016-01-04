@@ -1,0 +1,8 @@
+== groovy.文件.读文件到字符串(getText) == insert ==
+new File(<CURSOR>).getText()
+== groovy.文件.写字符串到文件(write) == insert ==
+new File(<CURSOR>).write(`<TODO:>`)
+== groovy.文件.读文件并处理每一行 == before ==
+new File(<CURSOR>).eachLine{
+    `<TODO:>` 
+}

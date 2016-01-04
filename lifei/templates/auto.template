@@ -1,0 +1,33 @@
+$ vim600: foldmethod=marker encoding=utf-8 foldmarker={{{,}}}
+== all.AutoComplete.info == insert ==
+${{{
+Li, Fei. Nankai University
+Email:lifei_chn@sina.com <CURSOR>
+$}}}
+== all.AutoComplete.modi == insert ==
+modified by |AUTHOR|(|AUTHORREF|) at |DATE| |TIME|:<CURSOR>
+== all.AutoComplete.date == insert ==
+|DATE|<CURSOR>
+== all.AutoComplete.vim6 == insert ==
+${{{
+// vim600: ts=4 st=4 foldmethod=marker foldmarker=<<<,>>> syn=|<-&syntax|
+// vim600: enc=utf-8 commentstring=//\ %s
+$}}}
+
+$####################################
+$########  C++ Code  ################
+$####################################
+== cpp.AutoComplete.if == insert ==
+${{{
+if(<CURSOR>)
+{
+   `<...>`;
+}
+$}}}
+== cpp.AutoComplete.for ==
+${{{
+for(|?循环数| = 0; |循环数| < <CURSOR>; |循环数|++)
+{
+   `<...>`;
+}
+$}}}

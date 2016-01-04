@@ -1,0 +1,93 @@
+常用|打开鼠标下的文件|gf
+常用|等同于 ":diffget"修改|do
+常用|等同于 ":diffput"|dp
+常用|重复上次的 ":" 命令 N 次|@:
+常用|重复上次的 @{a-z} N 次|@@
+常用|打开TodoList|:TDlist
+常用|打开SrcExpl|:SrcExpl
+常用|切换Buffer|'
+常用|Ex命令|;
+常用|打开标签|:Tlist
+常用|创建Tag|\<backspace>
+常用|重复上次的F,f,T,t操作|+
+常用|逆向重复上次的F,f,T,t操作|_
+常用|跳转到之前修改的位置|(
+常用|跳转到之后修改的位置|)
+常用|切换菜单和工具栏|<F2>
+常用|智能关闭窗口并更新BufExplorer|Q
+常用|循环跳转窗口|<C-W>P 或 K
+常用|更新窗口|<leader>rr
+常用|复制到剪切板|'
+常用|切换文件编码|<F8>
+常用|查找并打开文件|?
+李飞私用|打开帮助|<F1>
+李飞私用|打开模板|\\ 或 <F11>
+李飞私用|打开模板所在目录|<F9>
+李飞私用|打开主模板文件|<F10>
+李飞私用|打开自动补全提示|<F11>
+李飞私用|重新读入模板文件|<F12>
+李飞私用|切换到下个更新处|<Tab>
+李飞私用|切换到更新处并直接赋予默认值|~
+李飞私用|下一个|<Tab>
+李飞私用|上一个|`
+李飞私用|函数提醒|(
+李飞私用|函数提醒翻页|<M+,> 和 <M+.>
+Commenter|Comment|,cc
+Commenter|Toggle|,c<space>
+Commenter|Minimal|,cm
+Commenter|Sexy|,cs
+Commenter|Invert|,ci
+Commenter|Yank|,cy
+Commenter|AlignLeft|,cl
+Commenter|AlignBoth|,cb
+Commenter|Nest|,cn
+Commenter|Uncomment|,cu
+Commenter|ToEOL|,c$
+Commenter|Append|,cA
+Vjde|新建一个Java工程|:call VjdeNewJavaProject()
+Vjde|自动补全|<C-X><C-U>
+Vjde|编译当前文件|:Vjdec
+Vjde|运行当前类|:Vjder
+Vjde|自动跳转到当前符号的定义|:Vjdegd
+Vjde|导入包|<Leader>je :call Vjde_ext_import()<CR>
+Vjde|Get&Set方法|<Leader>jg :call Vjde_get_set()<CR>
+Vjde|生成构造函数|<Leader>jc :call VjdeGenerateConstructor()<CR>
+Vjde|用try将代码环绕|<Leader>jt :call Vjde_surround_try()<CR>
+Vjde|用try将代码环绕|<Leader>jt :call Vjde_surround_try()<CR>
+Vjde|整理导入的软件包|<Leader>js :call Vjde_sort_import()<CR>
+Vjde|修复未处理的Exception|<Leader>fr :call Vjde_fix_throws()<CR>
+Vjde|修复未处理的Exception|<Leader>ft :call Vjde_fix_try()<CR>
+Vjde|修复没有导入软件包的错误|<Leader>fi :call Vjde_fix_import()<CR>
+Vjde|修复没有导入软件包的错误|<Leader>ai :call Vjde_fix_import1()<CR>
+Vjde|删除没有多余的软件包|<Leader>ri :call Vjde_remove_imports()<CR>
+Vjde|抽取变量到local变量|<Leader>el :call Vjde_rft_var(2)<CR>
+Vjde|抽取变量到成员变量|<Leader>em :call Vjde_rft_var(1)<CR>
+Vjde|抽取变量到函数的参数|<Leader>ep :call Vjde_rft_arg()<CR>
+Vjde|抽取变量到常量|<Leader>en :call Vjde_rft_const()<CR>
+Vjde|重载函数|<Leader>oe :call Vjde_override(0)<CR>
+Vjde|导入接口|<Leader>oi :call Vjde_override(1)<CR>
+Project|打开工程文件|<backspace> 或 :Pro
+Project|递归添加目录到Project|\C
+Project|添加目录到Project|\c
+Project|递归更新目录|\R
+Project|更新目录|\r
+Project|在一个窗口中打开当前文件, 同时关闭其他所有打开的窗口.|\o
+Project|仅仅显示文件内容, 而光标依然停留在项目窗口中.|\v
+Project|水平分割目标窗口并打开当前文件.|\s
+Project|在状态栏中显示光标所在折叠完全解析和继承的参数.|\i
+Project|在状态栏显示光标下文件名的全名(含路径).|\I
+Project|执行在 g:proj_run{x} 指定的命令, {x} 是执行命令入口的编号.|\1 - \9
+Project|搜索当前项目层所有文件.|\g
+Project|搜索项目所有层所有文件.|\G
+Grep|在当前文件里查找光标下词汇|<leader>gv
+Grep|在当前目录的文件里查找词汇|<leader>gg
+Grep|特定模式的查找词汇Agrep|<leader>ga
+Grep|特定模式的查找词汇Fgrep|<leader>gf
+Grep|特定模式的查找词汇Rgrep|<leader>gr
+文件模式|设置文件模式为Dos|<leader>fd
+文件模式|设置文件模式为Unix|<leader>fu
+高亮|清楚查找关键字高亮|<leader><cr>
+WinManager|打开WinManager|<leader>wm
+WinManager|切换的第一个窗口|<leader>w1
+WinManager|切换的第二个窗口|<leader>w2
+内置|打开当前目录|<leader>fe

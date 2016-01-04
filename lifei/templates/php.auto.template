@@ -1,0 +1,37 @@
+$ vim600: ts=4 st=4 foldmethod=marker foldmarker={{{,}}} syn=template 
+$ vim600: encoding=utf-8 commentstring=$%s
+== php.AutoComplete.if == insert ==
+if(<CURSOR>) {
+    `<TODO: Enter Your Code>`
+}
+== php.AutoComplete.null == insert ==
+if( !isset($|?字符串|) || null == $|字符串| || '' == $|字符串| )
+{
+    <CURSOR>
+}
+== php.AutoComplete.emputy == insert ==
+if( null != |?数组| && 0 != count(|数组|) )
+{
+    <CURSOR>
+}
+== php.AutoComplete.a_null == insert ==
+if( array_key_exists($|?array name|, '|?key|') && null != $|array name|['|key|'] && '' != $|array name|['|key|'] )
+{
+    <CURSOR> 
+}
+== php.AutoComplete.echo == insert ==
+${{{
+<?php echo <CURSOR>;?>
+$}}}
+== php.AutoComplete.modi == insert ==
+// modified by |AUTHOR| at [|DATE| |TIME|]: <CURSOR> 
+== php.AutoComplete.thi == insert ==
+|EMPTY|$this->
+== php.AutoComplete.php == insert ==
+<?php <CURSOR> ?>
+== php.AutoComplete.arr == insert ==
+array(<CURSOR>)
+== php.AutoComplete.func == insert ==
+function <CURSOR>(`<TODO:>`) {
+    `<TODO:>` 
+}

@@ -1,0 +1,498 @@
+$ vim600: ts=4 st=4 foldmethod=marker foldmarker={{{,}}} syn=php 
+$ vim600: encoding=utf-8 commentstring=//\ %s 
+== joomla.模板.含有Yes和No两个选项的Radio按钮 == insert ==
+${{{
+<?php echo JHTML::_('select.booleanlist', 'state', '', true); // 返回值为0和1 ?>
+$}}}
+== joomla.模板.Caldendar控件 == insert ==
+${{{
+<?php echo JHTML::calendar(JRequest::getVar('date'), 'date', 'date'); ?>
+$}}}
+== joomla.模板.Select标签.genericlist  == insert ==
+${{{
+<?php
+
+    $arr = array(
+            JHTML::_('select.option', '0', JText::_( ) ),
+            JHTML::_('select.option', '0', JText::_( ) ),
+            JHTML::_('select.option', '0', JText::_( ) ),
+            JHTML::_('select.option', '0', JText::_( ) )
+    );
+
+    echo JHTML::_('select.genericlist', 
+            $arr,
+            '|Select Name|', 
+            '`<Additional HTML attributes for the <select> tag>` ',
+            'value',
+            'text',
+            `<The key that is selected (accepts an array or a string)>`); 
+?>
+$}}}
+== joomla.代码.Select标签.genericlist  == insert ==
+${{{
+    $arr = array(
+            JHTML::_('select.option', '0', JText::_(`<TODO:Text>`) ),
+            JHTML::_('select.option', '1', JText::_(`<TODO:Text>`) ),
+            JHTML::_('select.option', '2', JText::_(`<TODO:Text>`) ),
+            JHTML::_('select.option', '3', JText::_(`<TODO:Text>`) )
+    );
+
+    $select = JHTML::_('select.genericlist', 
+            $arr,
+            '`<TODO:name for select>`', 
+            '`<TODO:Additional HTML attributes for the <select> tag>` ',
+            'value',
+            'text',
+            `<TODO:The key that is selected (accepts an array or a string)>`); 
+$}}}
+== joomla.代码.Select标签.integerlist  == insert ==
+${{{
+    $select = JHTML::_('select.integerlist',
+            `<TODO:start>`,
+            `<TODO:end>`,
+            `<TODO:increase>`,
+            '`<TODO:name>`',
+            `<TODO:default>`); ?>
+$}}}
+== joomla.模板.Select标签.integerlist  == insert ==
+${{{
+    <? echo JHTML::_('select.integerlist', 
+            `<TODO:start>`,
+            `<TODO:end>`,
+            `<TODO:increase>`,
+            '`<TODO:name>`',
+            `<TODO:default>`); ?>
+$}}}
+== joomla.整体代码.建立Controller == above ==
+${{{
+<?php
+// vim600: ts=4 st=4 foldmethod=marker foldmarker={{{,}}}
+// vim600: encoding=utf-8 commentstring=//\ %s
+// vim600: ft=joomla syn=php 
+/**
+ * @version	$Id: |FILENAME| |DATE| |TIME| |AUTHOR| $
+ * @package	Joomla
+ * @subpackage	|?组件名大写首字母| 
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
+ * @license	GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
+ */
+
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
+
+jimport('joomla.application.component.controller');
+
+/**
+ * |组件名大写首字母| Component Controller
+ *
+ * @package	Joomla
+ * @subpackage	|组件名大写首字母| 
+ * @since 1.5
+ */
+class |组件名大写首字母|Controller extends JController
+{
+        var $username;
+        var $gid;
+        var $uid;
+
+	/* Method to check user {{{
+         * If logined, initialize the username and gid
+	 *
+	 * @access	public
+	 * @since	1.5
+	 */
+        function checkUser()
+        {
+            $user   =& JFactory::getUser();
+
+	        if ( $user->get('guest')) {
+			JError::raiseWarning( 404, JText::_('ALERTNOTAUTH') );
+			JError::raiseWarning( 404, JText::_('您必须登陆才能使用本功能!') );
+                        JController::setRedirect('index.php?option=com_users&task=log');
+                        JController::redirect();
+                        exit(0);
+	        }
+
+            $this->username = $user->get('name');
+            $this->gid      = $user->get('gid');
+            $this->uid      = $user->get('id');
+        }
+        // }}}
+        // {{{ 跳转
+        function jumpTo($component, $task, $other = null)
+        {
+            JController::setRedirect("index.php?option=$component&task=$task"
+                    . $other == null ? '':'&'.$other);
+            JController::redirect();
+            exit(0);
+        } // }}}
+	/* Method to display {{{
+	 *
+	 * @access	public
+	 * @since	1.5
+	 */
+	function display()
+    {
+        $view = JRequest::getVar('view','list');
+        JRequest::setVar('view', $view);
+        parent::display();
+    } // }}}
+}
+$}}}
+== joomla.整体代码.建立Model == above ==
+${{{
+<?php
+/**
+* @version	$Id: |FILENAME| |DATE| |TIME| |AUTHOR| $
+* @package	Joomla
+* @subpackage	|?组件名大写首字母|
+* @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
+* @license		GNU/GPL, see LICENSE.php
+* Joomla! is free software. This version may have been modified pursuant
+* to the GNU General Public License, and as distributed it includes or
+* is derivative of works licensed under the GNU General Public License or
+* other free or open source software licenses.
+* See COPYRIGHT.php for copyright notices and details.
+*/
+
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
+
+jimport( 'joomla.application.component.model' );
+
+/**
+* @package	Joomla
+* @subpackage	|组件名大写首字母| 
+*/
+class |组件名大写首字母|Model`<TODO: View名或者组件名大写首字母>` extends JModel
+{
+
+    /** 数据库 */
+    var $_db;
+
+    /** 总数 */
+    var $_total;
+
+    /** 分页类 */
+    var $_pagination;
+
+    /**
+     * Constructor
+     *
+     * @since 1.5
+     */
+    function __construct()
+    {
+        parent::__construct();
+
+        global $mainframe;
+
+        //Get configuration
+        $config = JFactory::getConfig();
+        $this->_db = JFactory::getDBO();
+
+        // 翻页所需的参数
+        $this->setState('limit', $mainframe->getUserStateFromRequest('com_`<TODO:组件名小写>`.limit', 'limit', $config->getValue('config.list_limit'), 'int'));
+        $this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
+
+
+        // 用户权限的判断
+        $user = &JFactory::getUser();
+        $gid = $user->get('gid');
+
+        if( $gid < 23 ) // 权限低于初级管理员
+        {
+            $this->_where = ' WHERE a.user='.$user->get('id');
+        }
+        else
+        {
+            $this->_where = '';
+        }
+
+
+        // 排序
+        $orderby            = JRequest::getWord('order', '');
+
+        switch( $orderby )
+        {
+        case 'price':
+            $this->_orderby = 'price';
+            break;
+        case 'price_desc':
+            $this->_orderby = 'price DESC';
+            break;
+        case 'date':
+            $this->_orderby = 'date';
+            break;
+        case 'date_desc':
+            $this->_orderby = 'date DESC';
+            break;
+        default:
+            $this->_orderby = 'id DESC';
+        }
+    }
+
+    /**
+     * Method to get the total number of weblink items for the category
+     *
+     * @access public
+     * @return integer
+     */
+    function getTotal()
+    {
+        if( !isset($this->_total) )
+        {
+            $query = 'SELECT COUNT(*) as total FROM #__`<TODO: 查询的表名>` AS a'
+                . $this->_where;
+            $this->_db->setQuery( $query );
+            $ret = $this->_db->loadObject();
+            $this->_total = $ret == null ? 0 : $ret->total;
+        }
+        return $this->_total;
+    }
+
+    /**
+     * Method to get a pagination object of the weblink items for the category
+     *
+     * @access public
+     * @return integer
+     */
+    function getPagination()
+    {
+        // Lets load the content if it doesn't already exist
+        if (empty($this->_pagination))
+        {
+            jimport('joomla.html.pagination');
+            $this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+        }
+
+        return $this->_pagination;
+    }
+
+    /**
+     * Method to save data
+     * @param array The params
+     */
+    function save( $params )
+    {
+        $db             = $this->getDBO();
+
+        $item = new stdClass;
+        $item->`<TODO:属性1>` = $params['<TODO:属性1>'];
+        $item->`<TODO:属性2>` = $params['<TODO:属性2>'];
+        $item->`<TODO:属性3>` = $params['<TODO:属性3>'];
+        $item->`<TODO:属性4>` = $params['<TODO:属性4>'];
+
+        // 主键值，NULL表示插入
+        $item->`<TODO:主键>` = NULL;
+
+        $db->insertObject('#__`<TODO:表名>`',
+                $item, '`<TODO:主键>`');
+
+        return $db->ErrorNo();
+    }
+
+    /**
+     * Method to get a data object
+     *
+     * @access public
+     * @return integer
+     */
+    function getData()
+    {
+
+        $query = '`<TODO: SQL语句>`'
+            . $this->_where
+            . $this->_orderby
+            . ' LIMIT '.$this->getState('limitstart')
+            . ','
+            . $this->getState('limit');
+        $this->_db->setQuery( $query );
+        $lists = $this->_db->loadObjectList();
+
+        // post process
+        foreach($lists as $list)
+        {
+            `<TODO:修改一些数据的格式>`
+        }
+
+        return $lists;
+    }
+}
+?>
+$}}}
+== joomla.整体代码.创建View == above ==
+${{{
+<?php
+/**
+ * @version	$Id: |FILENAME| |DATE| |TIME| |AUTHOR| $
+ * @package	Joomla
+ * @subpackage	|?组件名大写首字母| 
+ * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
+ * @license		GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant
+ * to the GNU General Public License, and as distributed it includes or
+ * is derivative of works licensed under the GNU General Public License or
+ * other free or open source software licenses.
+ * See COPYRIGHT.php for copyright notices and details.
+ */
+
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die( 'Restricted access' );
+
+jimport( 'joomla.application.component.view');
+
+/**
+ * HTML View class for the |组件名大写首字母| component
+ *
+ * @static
+ * @package	Joomla
+ * @subpackage	|组件名大写首字母| 
+ * @since 1.0
+ */
+class |组件名大写首字母|View`<TODO: 组件名大写首字母或View名>` extends JView
+{
+    function display($tpl = null)
+    {
+        global $mainframe;
+
+        $db 	  =& JFactory::getDBO();
+        $document =& JFactory::getDocument();
+        $pathway  =& $mainframe->getPathway();
+        // Adds parameter handling
+        $params = $mainframe->getParams();
+
+
+        //Set page title information
+        $menus	= &JSite::getMenu();
+        $menu	= $menus->getActive();
+
+        // because the application sets a default page title, we need to get it
+        // right from the menu item itself
+        $page_title = '`<TODO: 默认的页面标题>`';
+        if (is_object( $menu )) {
+            $menu_params = new JParameter( $menu->params );
+            if (!$menu_params->get( 'page_title')) {
+                $params->set('page_title', $page_title);
+            }
+        } else {
+            $params->set('page_title',	$page_title);
+        }
+        $document->setTitle( $params->get( 'page_title' ) );
+
+        //Set pathway information
+        $pathway->addItem($page_title, '');
+
+        $params->def( 'show_page_title', 1 );
+        $params->def( 'page_title', $page_title );
+        $this->assignRef('params',	$params);
+
+        parent::display($tpl);
+    }
+}
+?>
+$}}}
+== joomla.整体代码.模板初始化 == above ==
+${{{
+<?php // no direct access
+defined('_JEXEC') or die('Restricted access');
+?>
+
+<?php JHTML::_('stylesheet', '|?组件名小写|.css', 'components/com_|组件名小写|/assets/'); ?>
+<?php JHTML::_('script',     '|组件名小写|.js',    'components/com_|组件名小写|/assets/'); ?>
+$}}}
+== joomla.整体代码.组件入口 == above ==
+${{{
+ <?php
+ /**
+  * @version		|?组件名大写首字母|.php |DATE| |TIME| |AUTHOR|
+  * @package		Joomla
+  * @subpackage	    |组件名大写首字母|
+  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
+  * @license		GNU/GPL, see LICENSE.php
+  * Joomla! is free software. This version may have been modified pursuant
+  * to the GNU General Public License, and as distributed it includes or
+  * is derivative of works licensed under the GNU General Public License or
+  * other free or open source software licenses.
+  * See COPYRIGHT.php for copyright notices and details.
+  */
+ 
+ // no direct access
+ defined( '_JEXEC' ) or die( 'Restricted access' );
+ 
+ // Require the com_content helper library
+ require_once (JPATH_COMPONENT.DS.'controller.php');
+ 
+ // Create the controller
+ $controller = new |组件名大写首字母|Controller( );
+ 
+ // Perform the Request task
+ $controller->execute(JRequest::getCmd('task'));
+ 
+ // Redirect if set by the controller
+ $controller->redirect();
+ 
+ ?>
+$}}}
+== joomla.代码.获取用户的信息 == insert ==
+${{{
+ $user =& JFactory::getUser();
+ 
+ if($user->get('guest'))
+ {
+ }   
+
+ $name = $user->get('name');
+ $gid  = $user->get('gid');
+ $id   = $user->get('id');
+$}}}
+== joomla.代码.redirect == insert ==
+${{{
+JError::raiseWarning(500, '<CURSOR>');
+JController::setRedirect('index.php?option=com_`<TODO:组件>`&task=`<TODO:Task>`');
+JController::redirect();
+exit(0);
+$}}}
+== joomla.代码.JHTML::link == insert ==
+${{{
+JHTML::_('link', JRoute::_('<CURSOR>'), '`<TODO:text>`')
+$}}}
+== joomla.代码.从字符串中读入时间 == insert ==
+${{{
+ $date = str_replace(array('年','月','日'), array('-', '-', ''), $date);
+ $time = strtotime($date);
+$}}}
+== joomla.代码.getVar == above ==
+${{{
+    $|?变量名| = htmlspecialchars(JRequest::getVar('|变量名|', `<default:0或''>`, '`<method:default,POST,GET,FILES,COOKIE,METHOD>`', '`<TODO:int,string>`'), ENT_QUOTES);
+$}}}
+== joomla.模板.link == above ==
+${{{
+    <?echo JHTML::_('link', JRoute::_('`<TODO:链接>`'), '`<TODO:text>`');?>
+$}}}
+== joomla.代码.插入数据库 == above ==
+${{{
+    $item = new stdClass;
+    $item->title         = $title;
+    $item->id            = NULL;
+
+    $db =& JFactory::getDBO();
+    if($db->insertObject('`<TODO:表名>`', $item, 'id'))
+    {
+        JError::raiseNotice('200', JText::_('`<TODO:成功的信息>`'));
+        JRequest::setVar('view', '`<TODO:跳转到view>`');
+        parent::display();
+    }
+    else
+    {
+        JError::raiseWarning('404',
+                JText::_('您提交的数据存在错误!'));
+        JRequest::setVar('view', '`<TODO:之前的view>`');
+        parent::display();
+    }
+$}}}

@@ -1,0 +1,118 @@
+== java.File.写入到文件 ==
+java.io.FileWriter writer = null;
+
+try
+{
+    writer = new java.io.FileWriter(<CURSOR>); 
+    
+    // TODO: 写入的代码
+    writer.write("");
+}
+catch(java.io.FileNotFoundException ex)
+{
+    ex.printStackTrace();
+} 
+catch (IOException e) 
+{
+    e.printStackTrace();
+}
+finally
+{
+    if(writer != null)
+    {
+        try
+        {
+            writer.close(); 
+        }
+        catch(java.io.IOException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+}
+
+== java.File.读入文件到Byte[](函数) == 
+/**
+ * Reads a File to a byte array.
+ * @param file
+ * @return byte[]
+ * @throws IOException
+ */
+protected byte[] readFileToByteArray(File file) throws IOException
+{
+    FileInputStream in = null;
+
+    try
+    {
+        byte[] buffer = new byte[(int) file.length()];
+        in = new FileInputStream(file);
+        in.read(buffer);
+
+        return buffer;
+    }
+    finally
+    {
+        if (in != null)
+        {
+            try
+            {
+                in.close();
+            }
+            catch (IOException e)
+            {
+            }
+        }
+    }
+}
+
+== java.File.读入文本行 ==
+java.io.BufferedReader reader = null;
+try
+{
+    reader = new java.io.BufferedReader(new
+            java.io.FileReader(<CURSOR>)); 
+    String line = ""; 
+    while(true)
+    { 
+        try
+        {
+            line = reader.readLine(); 
+        }
+        catch(java.io.IOException e)
+        {
+            break;
+        }
+
+        if (line == null)
+            break; 
+
+        `<TODO:输入你的代码>`
+    } 
+
+
+}
+catch(java.io.FileNotFoundException ex)
+{
+    `<ex.printStackTrace();>`
+}
+finally
+{
+    if(reader != null)
+    {
+        try
+        {
+            reader.close(); 
+        }
+        catch(java.io.IOException ex)
+        {
+            `<ex.printStackTrace();>`
+        }
+    }
+}
+== java.File.文件是否存在 ==
+java.io.File f = new java.io.File(<CURSOR>);
+if(f.exist()) 
+{
+    `<如何处理>`
+}
+

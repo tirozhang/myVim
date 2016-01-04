@@ -1,0 +1,24 @@
+== php.添加注释.Class == insert ==
+/**
+ * @purpose: <CURSOR>
+ * @package: `<TODO>`
+ * @author: |AUTHOR| |EMAIL|
+ * @modifications:
+ * |DATE|:`<TODO>`
+ * @see: `<TODO>`
+ */ 
+== php.添加注释.Function == insert ==
+/**
+ * @purpose: <CURSOR>
+ * @method Name: `<TODO>`()
+ * @parameter: 
+ * type       name       function 
+ * `<TODO>`   `<TODO>`   `<TODO>` 
+ * @return: `<TODO>` 
+ */ 
+== php.添加注释.Variable == insert ==
+/**
+ * @purpose: <CURSOR> 
+ * @attribute/variable name: `<TODO>` 
+ * @type: `<TODO>` 
+ */ 

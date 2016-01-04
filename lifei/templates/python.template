@@ -1,0 +1,76 @@
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+ |includefile| = python.auto.template
+
+
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+== python.File.ReadLine ==
+for line in file(<CURSOR>):
+    `<TODO>`
+== python.File.Write == 
+f = open(<CURSOR>, 'w')
+f.write(`<TODO>`)
+f.close()
+== python.Regex.FindAll == insert ==
+|?List|List = re.findall(`<Regex>`, `<TODO>`)
+
+for |List| in |List|List:
+    `<TODO>` 
+== python.Regex.Compile == insert ==
+<CURSOR> = re.compile(`<RegexText>`)
+== python.Function.Main == insert ==
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print 'argument no > 2:Usage:python filename argv'
+        sys.exit(1)
+    elif sys.argv[1] == 'argv':
+        `<TODO>`
+== python.Comment.Function == insert ==
+###################################################################
+# Purpose: <CURSOR>                                                             
+# Param:                                                                        
+# `<TODO>`                                                                      
+# Return: `<TODO>`                                                              
+# Modifications:                                                                
+# |DATE|: `<TODO>`                                                              
+###################################################################
+== python.Comment.EndFunction == insert ==
+# End Function: <CURSOR>
+== python.MySQL.ConnectDB ==
+MySQLHost = localhost
+MySQLUser = <CURSOR> 
+MySQLPasswd = `<TODO>`
+MySQLDatabse = `<TODO>` 
+DB =MySQLdb.connect(MySQLHost, MySQLUser, MySQLPasswd, MySQLDatabse)
+Cursor = DB.cursor()
+== python.MySQLDB.Query ==
+Cursor.execute(<CURSOR>)
+Result = Cursor.fetchAll()
+for Row in Result:
+    `<TODO>` 
+== python.Log.InitLog ==
+import logging
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+ 
+ch = logging.StreamHandler()
+# ch = logging.FileHandler(`<TODO: File Name>`)
+
+ch.setLevel(logging.DEBUG)
+# ch.setLevel(logging.INFO)
+
+formatter = logging.Formatter("%(message)s")
+# formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+# formatter = logging.Formatter("%(levelname)s - %(message)s")
+
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+# Use like this:
+# logger.debug("debug message")
+# logger.info("info message")
+# logger.warn("warn message")
+# logger.error("error message: %s" % error_message)
+# logger.critical("critical message")
+
