@@ -603,8 +603,9 @@ nmap <F7> :call AutoLoadCTagsAndCScope()<CR>
 " 快速查找
 nmap <leader>lv :lv /<c-r>=expand("<cword>")<cr>/ %<cr>:lw<cr> 
 " set paste
-nmap <leader>sp :set paste<CR> 
-nmap <leader>sn :set nopaste<CR> 
+" nmap <leader>sp :set paste<CR> 
+" nmap <leader>sn :set nopaste<CR> 
+set pastetoggle=<F6>
   
 " other .vimrc
 set nocompatible              " be iMproved, required
