@@ -602,6 +602,9 @@ nmap <F7> :call AutoLoadCTagsAndCScope()<CR>
 " http://vifix.cn/blog/vim-auto-load-ctags-and-cscope.html
 " 快速查找
 nmap <leader>lv :lv /<c-r>=expand("<cword>")<cr>/ %<cr>:lw<cr> 
+" set paste
+nmap <leader>sp :set paste<CR> 
+nmap <leader>sn :set nopaste<CR> 
   
 " other .vimrc
 set nocompatible              " be iMproved, required
