@@ -605,7 +605,8 @@ nmap <leader>lv :lv /<c-r>=expand("<cword>")<cr>/ %<cr>:lw<cr>
 " set paste
 " nmap <leader>sp :set paste<CR> 
 " nmap <leader>sn :set nopaste<CR> 
-set pastetoggle=<F6>
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
   
 " other .vimrc
 set nocompatible              " be iMproved, required
