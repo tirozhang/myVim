@@ -66,6 +66,7 @@ set nu
 set lz
 set hid
 set backspace=eol,start,indent
+set backspace=2
 set whichwrap+=<,>
 set incsearch
 set hlsearch
