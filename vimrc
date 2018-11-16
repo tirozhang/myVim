@@ -66,7 +66,6 @@ set nu
 set lz
 set hid
 set backspace=eol,start,indent
-set backspace=2
 set whichwrap+=<,>
 set incsearch
 set hlsearch
@@ -318,6 +317,7 @@ inoremap <C-F>             <C-X><C-F>
 inoremap <C-K>             <C-X><C-K>
 inoremap <C-D>             <C-X><C-D>
 inoremap <C-L>             <C-X><C-L>
+inoremap <C-O>             <C-X><C-O>
 " }}}
 
 autocmd BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
@@ -330,8 +330,8 @@ autocmd FileType txt setl tw=78
 autocmd BufNewFile,BufRead *.todo so ~/vim_local/syntax/amido.vim
 autocmd FileType vim set nofen
 autocmd FileType vim map <buffer> <leader><space> :w!<cr>:source %<cr>
-autocmd FileType html set ft=xml
-autocmd FileType html set syntax=html
+"autocmd FileType html set ft=xml
+"autocmd FileType html set syntax=html
 autocmd FileType c,cpp  map <buffer> <leader><space> :make<cr>
 autocmd FileType c,cpp  setl foldmethod=manual | setl fen
 autocmd FileType tex map <silent><leader><space> :w!<cr> :silent! call Tex_RunLaTeX()<cr>
@@ -569,6 +569,7 @@ syntax enable
 filetype plugin on
 set number
 let g:go_disable_autoinstall = 0
+let g:go_version_warning = 0
 
 
 "auto add tags
@@ -608,6 +609,11 @@ nmap <leader>lv :lv /<c-r>=expand("<cword>")<cr>/ %<cr>:lw<cr>
 " nmap <leader>sn :set nopaste<CR> 
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
+
+"Matrix
+nnoremap <Leader>m :Matrix<cr>
+"pman
+autocmd FileType php setlocal keywordprg=pman
   
 " other .vimrc
 set nocompatible              " be iMproved, required
@@ -663,6 +669,8 @@ Plugin 'noahfrederick/vim-hemisu'
 Plugin 'tpope/vim-surround'
 " php-cs-fixer
 Plugin 'stephpy/vim-php-cs-fixer'
+Plugin 'fatih/vim-go'
+Plugin 'ervandew/supertab'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -761,10 +769,11 @@ let g:syntastic_check_on_wq = 0
 
 " php-cs-fixer
 " If php-cs-fixer is in $PATH, you don't need to define line below
-" let g:php_cs_fixer_path = "~/php-cs-fixer.phar" " define the path to the php-cs-fixer.phar
+"let g:php_cs_fixer_path = "~/php-cs-fixer.phar" " define the path to the php-cs-fixer.phar
 let g:php_cs_fixer_level = "symfony"              " which level ?
 let g:php_cs_fixer_config = "default"             " configuration
 let g:php_cs_fixer_php_path = "php"               " Path to PHP
+let g:php_cs_fixer_rules = "@PSR2"   
 " If you want to define specific fixers:
 "let g:php_cs_fixer_fixers_list = "linefeed,short_tag,indentation"
 let g:php_cs_fixer_enable_default_mapping = 1     " Enable the mapping by default (<leader>pcd)
