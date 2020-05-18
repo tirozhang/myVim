@@ -88,7 +88,6 @@ set expandtab
 set ai
 set si
 set wrap
-set diffopt+=vertical
 set pastetoggle=<F3>
 set tabstop=4
 set softtabstop=4
@@ -152,12 +151,6 @@ let g:LookupFile_AlwaysAcceptFirst = 1
 let g:LookupFile_AllowNewFiles = 0
 let g:LookupFile_DisableDefaultMap = 1
 " }}}
-" {{{ for syntax
-let xml_use_xhtml = 1
-let html_use_css = 1
-let html_number_lines = 0
-let use_xhtml = 1
-" }}}
 " {{{ for Tex
 let g:Tex_DefaultTargetFormat="pdf"
 let g:Tex_ViewRule_pdf='xpdf'
@@ -185,7 +178,6 @@ let g:miniBufExplMapWindowNavVim = 1   " map CTRL-[hjkl]
 let g:miniBufExplUseSingleClick = 1    " select by single click
 let g:miniBufExplModSelTarget = 1      " Dont change to unmodified buffer
 let g:miniBufExplorerDebugLevel = 0
-"let g:miniBufExplForceSyntaxEnable = 1 " force syntax on
 " }}}
 " {{{ for Echo Function
 let g:EchoFuncKeyPrev = "<C-C>"
@@ -237,13 +229,6 @@ map <silent> <leader>gf :Fgrep<cr>
 map <silent> <leader>ga :Agrep<cr>
 " }}}
 map <leader>yr :YRShow<cr>
-" {{{ syntax
-map <leader>1 :set syntax=c<cr>
-map <leader>2 :set syntax=xhtml<cr>
-map <leader>3 :set syntax=python<cr>
-map <leader>4 :set ft=javascript<cr>
-map <leader>$ :syntax sync fromstart<cr>
-" }}}
 map <space> :wincmd \|<cr>:wincmd _<cr>
 map ! :!
 map m :bn<cr>
@@ -511,9 +496,6 @@ let g:syntastic_warning_symbol='>'
 let g:syntastic_check_on_open=1
 let g:syntastic_check_on_wq=0
 let g:syntastic_enable_highlighting=1
-let g:syntastic_python_checkers=['pyflakes'] " 使用pyflakes,速度比pylint快
-let g:syntastic_javascript_checkers = ['jsl', 'jshint']
-let g:syntastic_html_checkers=['tidy', 'jshint']
 " 修改高亮的背景色, 适应主题
 highlight SyntasticErrorSign guifg=white guibg=black
 " to see error location list
@@ -570,6 +552,7 @@ filetype plugin on
 set number
 let g:go_disable_autoinstall = 0
 let g:go_version_warning = 0
+let g:go_gopls_enabled = 0
 
 
 "auto add tags
@@ -757,15 +740,6 @@ let g:tagbar_type_rust = {
      \'i:impls,trait implementations',
  \ ]
  \ }
-
-"" syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
 
 " php-cs-fixer
 " If php-cs-fixer is in $PATH, you don't need to define line below
